@@ -1,5 +1,6 @@
 "use client"
 import { signIn } from "next-auth/react"
+import { useState } from "react"
  
 interface SignInButtonProps {
     className: string
@@ -7,5 +8,15 @@ interface SignInButtonProps {
 
 
 export default function SignInButton({ className }: SignInButtonProps) {
-  return <button className={className} onClick={() => signIn("osu")}>Sign In</button>
+  const [isLoading, setLoading] = useState(false);
+
+  return (
+  <button className={className} onClick={() => {
+      signIn("osu", {redirect: true})
+      setLoading(true)
+
+  }}>
+    j
+    </button>
+    )
 }

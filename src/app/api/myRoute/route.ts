@@ -1,7 +1,8 @@
 import { auth } from "@/utils/auth"
+import prisma from "@/utils/db"
 import { NextResponse } from "next/server"
 
-export const GET = auth(function GET(req) {
-    if (req.auth) return NextResponse.json(req.auth)
-    return NextResponse.json({ message: "Not authenticated" }, { status: 401 })
+export const GET = auth(async function GET(req) {
+    const myTournament = await prisma.tournament.findFirst();
+    return NextResponse.json(myTournament);
   })

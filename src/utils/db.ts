@@ -13,3 +13,13 @@ const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 export default prisma
 
 if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
+
+
+declare global {
+    interface BigInt {
+        toJSON(): Number;
+    }
+  }
+  
+  BigInt.prototype.toJSON = function () { return Number(this) }
+  

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import SignInButton from "./signInButton";
-import { auth } from "@/utils/auth";
+import { auth } from "@/lib/auth";
 
 
 

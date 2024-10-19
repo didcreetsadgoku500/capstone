@@ -1,9 +1,8 @@
 import { auth } from "@/lib/auth";
-import { h2Styles } from "./textStyles";
+import { logoStyles } from "./textStyles";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent } from "./ui/dropdown-menu";
 import { UserRound } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { NavBarLoginItem } from "./navBarLoginItem";
 
 
@@ -19,12 +18,12 @@ export async function NavBar() {
 
     return (
         <div className="flex flex-row justify-around items-end">
-            <h1 className={h2Styles}>tournament.sh</h1>
+            <h1 className={logoStyles}>tournament.sh</h1>
             
                 
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <Avatar className="w-12 h-12 ring-0 ring-primary/75 transition-all duration-150 hover:ring">
+                    <Avatar className="w-12 h-12 mb-1 ring-0 ring-primary/75 transition-all duration-150 hover:ring">
                         <AvatarImage src={session?.user.avatar_url} />
                         
                         <AvatarFallback><UserRound /></AvatarFallback>

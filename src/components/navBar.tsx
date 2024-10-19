@@ -32,7 +32,7 @@ export async function NavBar() {
 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <NavBarLoginItem signedIn={signedIn}/>
+                    <NavBarLoginItem signedIn={signedIn} session={session}/>
                 </DropdownMenuContent>
             </DropdownMenu>
             

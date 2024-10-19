@@ -51,7 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (profile) {
         profile = narrowProfile(profile);
-        console.log(profile)
         token.user = profile;
       }
 

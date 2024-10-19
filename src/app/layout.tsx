@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} font-sans antialiased mx-auto p-4 flex flex-col`}
+        className={`${inter.variable} font-sans antialiased mx-auto px-4 py-2 flex flex-col`}
       >
         <div>
         <NavBar />

@@ -23,8 +23,8 @@ export async function NavBar() {
                 
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <Avatar className="w-12 h-12 mb-1 ring-0 ring-primary/75 transition-all duration-150 hover:ring">
-                        <AvatarImage src={session?.user.avatar_url} />
+                    <Avatar className="m-1 w-12 h-12 ring-0 ring-primary/75 transition-all duration-150 hover:ring">
+                        <AvatarImage className="align-text-bottom" src={session?.user.avatar_url} />
                         
                         <AvatarFallback><UserRound /></AvatarFallback>
                     </Avatar>

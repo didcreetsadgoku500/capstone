@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent } from "./ui/dropdown-menu";
 import { UserRound } from "lucide-react";
 import { NavBarLoginItem } from "./navBarLoginItem";
+import { Separator } from "./ui/separator";
 
 
 
@@ -17,7 +18,9 @@ export async function NavBar() {
     console.log(signedIn)
 
     return (
-        <div className="flex flex-row justify-around items-end">
+        <div className="flex flex-col max-w-screen-xl mx-auto">
+            
+        <div className="flex flex-row justify-between items-end">
             <h1 className={logoStyles}>tournament.sh</h1>
             
                 
@@ -35,6 +38,9 @@ export async function NavBar() {
                 </DropdownMenuContent>
             </DropdownMenu>
             
+ 
+            </div>
+            <Separator />
         </div>
     )
 }

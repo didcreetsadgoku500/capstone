@@ -26,9 +26,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased mx-auto px-4 py-2 flex flex-col`}
       >
-        <div>
-        <NavBar />
-        <Separator />
+        <div> {/* load bearing div */}
+          <NavBar />
 
         </div>
         {children}

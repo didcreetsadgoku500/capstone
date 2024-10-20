@@ -26,7 +26,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased mx-auto px-4 py-2 flex flex-col`}
       >
-        <div> {/* load bearing div */}
+        <div className="mb-8"> {/* load bearing div */}
           <NavBar />
 
         </div>

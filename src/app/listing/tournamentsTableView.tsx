@@ -1,5 +1,7 @@
 import { h3Styles } from "@/components/textStyles";
 import { Separator } from "@/components/ui/separator";
+import TournamentCard from "./tournamentCard";
+//
 
 export default function TournamentsTableView() {
     return (
@@ -9,8 +11,14 @@ export default function TournamentsTableView() {
             <h3 className={h3Styles}>Tournaments</h3>
             <Separator className="bg-primary/75" />
             </div>
-            <div className="items-center flex space-x-2">
-
+            <div className="flex flex-wrap gap-3 justify-center">
+                
+               <TournamentCard />
+               <TournamentCard />
+               <TournamentCard />
+               <TournamentCard />
+               <TournamentCard />
+               <TournamentCard />
             </div>
         </div>
     )

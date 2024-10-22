@@ -1,7 +1,4 @@
-import { h2Styles, largeStyles, pStyles, smallStyles } from "@/components/textStyles";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 
 const tempSrc = "https://raw.githubusercontent.com/didcreetsadgoku500/tournament.sh/refs/heads/main/src/assets/strafeSmoke.jpg?token=GHSAT0AAAAAACX7YTQR7HVEF55W3IWL4Q2UZYWUQEA"
 

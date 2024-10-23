@@ -23,7 +23,7 @@ export default function TournamentCard({ details, action = "register"}: Tourname
           <p className="text-xs font-regular text-primary/75 line-clamp-3">{details.description}</p>
         </div>
         <div className="flex justify-end mt-2">
-          <Button className="py-1 px-2 text-xs font-medium" size="xs">Register</Button>
+          <Button className="py-1 px-2 text-xs font-medium" size={null}>Register</Button>
         </div>
       </div>
     )

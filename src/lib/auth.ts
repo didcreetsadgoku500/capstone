@@ -53,7 +53,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         profile = narrowProfile(profile);
         token.user = profile;
       }
-
       return token
     },
     session({ session, token }) { 

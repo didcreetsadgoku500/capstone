@@ -15,7 +15,6 @@ export async function NavBar() {
 
 
     const signedIn = !!session;
-    console.log(signedIn)
 
     return (
         <div className="flex flex-col max-w-screen-xl mx-auto">

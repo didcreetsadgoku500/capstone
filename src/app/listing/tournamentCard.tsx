@@ -1,25 +1,30 @@
 import { Button } from "@/components/ui/button";
 
 
-
-interface TournamentCardProps {
+interface TournamentDetails {
   title: string,
   description: string,
   bannerSrc: string,
   tournamentId: number,
-  action: "register" | "unregister"
 }
 
-export default function TournamentCard({ bannerSrc, title, description, action = "register"}: TournamentCardProps) {
+
+interface TournamentCardProps {
+  details: TournamentDetails
+  action?: "register" | "unregister"
+}
+
+export default function TournamentCard({ details, action = "register"}: TournamentCardProps) {
+  console.log(action);
     return (
-      <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md">
-        <img className="w-full h-20 object-cover rounded-lg" src={bannerSrc} alt="Tournament Banner" />
+      <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card">
+        <img className="w-full h-20 object-cover rounded-lg" src={details.bannerSrc} alt="Tournament Banner" />
         <div className="flex flex-col flex-grow overflow-hidden mt-2">
-          <h3 className="text-md font-medium">{title}</h3>
-          <p className="text-xs font-regular text-primary/75 line-clamp-3">{description}</p>
+          <h3 className="text-md font-medium">{details.title}</h3>
+          <p className="text-xs font-regular text-primary/75 line-clamp-3">{details.description}</p>
         </div>
         <div className="flex justify-end mt-2">
-          <Button size="sm">Register</Button>
+          <Button className="py-1 px-2 text-xs font-medium" size="xs">Register</Button>
         </div>
       </div>
     )

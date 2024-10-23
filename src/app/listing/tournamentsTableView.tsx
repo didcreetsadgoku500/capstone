@@ -3,16 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import TournamentCard from "./tournamentCard";
 //
-const tempSrc = "https://raw.githubusercontent.com/didcreetsadgoku500/tournament.sh/refs/heads/main/src/assets/strafeSmoke.jpg?token=GHSAT0AAAAAACX7YTQR7HVEF55W3IWL4Q2UZYWUQEA"
 
 const sampleTournament =  {
-    title: "My Tournament",
-    description: "I love my tournament",
-    bannerSrc: tempSrc,
+    title: "My Amazing Tournament",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    bannerSrc: "/strafeSmoke.jpg",
     tournamentId: 18734265876
 
 }
-// test push
 
 export default function TournamentsTableView() {
     return (
@@ -22,9 +20,13 @@ export default function TournamentsTableView() {
             <h3 className={h3Styles}>Tournaments</h3>
             <Separator className="bg-primary/75" />
             </div>
-            <div className="flex flex-wrap gap-3 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                 
-               <TournamentCard title={sampleTournament.title} description={sampleTournament.description} bannerSrc={sampleTournament.bannerSrc} tournamentId={sampleTournament.tournamentId}/>
+               <TournamentCard details={sampleTournament}/>
+               <TournamentCard details={sampleTournament}/>
+               <TournamentCard details={sampleTournament}/>
+               <TournamentCard details={sampleTournament}/>
+               <TournamentCard details={sampleTournament}/>
             </div>
 
 

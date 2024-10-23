@@ -15,7 +15,6 @@ interface TournamentCardProps {
 }
 
 export default function TournamentCard({ details, action = "register"}: TournamentCardProps) {
-  console.log(action);
     return (
       <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card">
         <img className="w-full h-20 object-cover rounded-lg" src={details.bannerSrc} alt="Tournament Banner" />

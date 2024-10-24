@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 interface TournamentDetails {
@@ -16,6 +17,7 @@ interface TournamentCardProps {
 
 export default function TournamentCard({ details, action = "register"}: TournamentCardProps) {
     return (
+      <Link href={`/dashboard/${details.tournamentId}`}>
       <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer">
         <img className="w-full h-20 object-cover rounded-lg" src={details.bannerSrc} alt="Tournament Banner" />
         <div className="flex flex-col flex-grow overflow-hidden mt-2">
@@ -26,5 +28,6 @@ export default function TournamentCard({ details, action = "register"}: Tourname
           <Button className="py-1 px-2 text-xs font-medium" size={null}>Register</Button>
         </div>
       </div>
+      </Link>
     )
   }

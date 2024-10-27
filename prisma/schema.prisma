@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,14 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tournament {
-  id BigInt @id @default(autoincrement())
-  name String
+model Permission {
+  id     BigInt @id @default(autoincrement())
+  userId String
+  scope  String
+  role   String
 }
 
-model Permission {
-  id BigInt @id @default(autoincrement())
+model Tournament {
+  tournamentId   BigInt @id @default(autoincrement())
+  tourName String
+  tourDesc String
+  gamemode Gamemode
+  currentStage Int
+  stages Stage[]
+  registrations Registrations[]
+
+}
+
+model Stage {
+  tournamentId BigInt 
+  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId])
+  stageNo Int @default(sequence())
+  stageName String
+  isBracket Boolean
+  matches Match[]
+  mappool Mappool[]
+
+  @@id([tournamentId, stageNo])
+}
+
+model Match {
+  tournamentId BigInt
+  stageNo Int
+  matchId Int @default(sequence())
+  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo])
+
+  team1Score Int
+  team2Score Int
+  team1Id String
+  team2Id String
+
+  matchStatus MatchStatus
+  matchDateTime DateTime
+  referee String?
+
+  @@id([tournamentId, matchId])
+}
+
+model Mappool {
+  tournamentId BigInt
+  stageNo Int
+  mapId Int
+  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo])
+
+  @@id([tournamentId, stageNo, mapId])
+
+}
+
+model Registrations {
+  regId BigInt @id @default(autoincrement())
+  tournamentId BigInt
   userId String
-  scope String
-  role String
+  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId])
+
+
+}
+
+enum Gamemode {
+  STANDARD
+  TAIKO
+  CTB
+  MANIA
+}
+
+enum MatchStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  PAUSED
+  ENDED
 }

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ITournament } from "../api/queries/getTournaments";
+import { UserRoundIcon, UsersRound } from "lucide-react";
+import { smallStyles } from "@/components/textStyles";
 
 
 // interface TournamentDetails {
@@ -25,7 +27,8 @@ export default function TournamentCard({ details, action = "register"}: Tourname
           <h3 className="text-md font-medium">{details.tourName}</h3>
           <p className="text-xs font-regular text-primary/75 line-clamp-3">{details.tourDesc}</p>
         </div>
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-between mt-2">
+          <span className={`flex flex-row items-center font-medium`}> <UserRoundIcon className="mr-1 opacity-75" /> {details._count.registrations}</span>
           <Button className="py-1 px-2 text-xs font-medium" size={null}>Register</Button>
         </div>
       </div>

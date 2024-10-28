@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ITournament } from "../api/queries/getTournaments";
 
 
-interface TournamentDetails {
-  title: string,
-  description: string,
-  bannerSrc: string,
-  tournamentId: number,
-}
+// interface TournamentDetails {
+//   title: string,
+//   description: string,
+//   bannerSrc: string,
+//   tournamentId: number,
+// }
 
 
 interface TournamentCardProps {
-  details: TournamentDetails
+  details: ITournament
   action?: "register" | "unregister"
 }
 
@@ -19,10 +20,10 @@ export default function TournamentCard({ details, action = "register"}: Tourname
     return (
       <Link href={`/dashboard/${details.tournamentId}`}>
       <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer">
-        <img className="w-full h-20 object-cover rounded-lg" src={details.bannerSrc} alt="Tournament Banner" />
+        <img className="w-full h-20 object-cover rounded-lg" src={details.bannerUrl || ""} alt="Tournament Banner" />
         <div className="flex flex-col flex-grow overflow-hidden mt-2">
-          <h3 className="text-md font-medium">{details.title}</h3>
-          <p className="text-xs font-regular text-primary/75 line-clamp-3">{details.description}</p>
+          <h3 className="text-md font-medium">{details.tourName}</h3>
+          <p className="text-xs font-regular text-primary/75 line-clamp-3">{details.tourDesc}</p>
         </div>
         <div className="flex justify-end mt-2">
           <Button className="py-1 px-2 text-xs font-medium" size={null}>Register</Button>

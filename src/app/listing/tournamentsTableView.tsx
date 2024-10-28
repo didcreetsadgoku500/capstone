@@ -2,6 +2,7 @@ import { h3Styles } from "@/components/textStyles";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import TournamentCard from "./tournamentCard";
+import { ITournament } from "../api/queries/getTournaments";
 //
 
 
@@ -22,7 +23,7 @@ const myTournaments = [
     }
 ]
 
-export default function TournamentsTableView() {
+export default function TournamentsTableView({tournaments}: {tournaments: ITournament[]}) {
     return (
         <div className="space-y-3 flex flex-col">
             <div>
@@ -32,12 +33,7 @@ export default function TournamentsTableView() {
             </div>
             <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                 
-               {/* <TournamentCard details={sampleTournament}/>
-               <TournamentCard details={sampleTournament}/>
-               <TournamentCard details={sampleTournament}/>
-               <TournamentCard details={sampleTournament}/>
-               <TournamentCard details={sampleTournament}/> */}
-               {myTournaments.map((tournament) => <TournamentCard key={tournament.tournamentId} details={tournament}/>)}
+               {tournaments.map((tournament) => <TournamentCard key={tournament.tournamentId} details={tournament}/>)}
             </div>
 
 

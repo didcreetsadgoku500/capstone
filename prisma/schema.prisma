@@ -18,10 +18,12 @@ model Tournament {
   tournamentId   BigInt @id @default(autoincrement())
   tourName String
   tourDesc String
+  bannerUrl String?
   gamemode Gamemode
   currentStage Int
   stages Stage[]
   registrations Registrations[]
+  visibility Visibility @default(PRIVATE)
 
 }
 
@@ -86,4 +88,9 @@ enum MatchStatus {
   IN_PROGRESS
   PAUSED
   ENDED
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
 }

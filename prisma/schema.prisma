@@ -23,6 +23,9 @@ model Tournament {
   currentStage Int
   stages Stage[]
   registrations Registrations[]
+  minRank Int?
+  maxRank Int?
+  usesBWS Boolean?
   visibility Visibility @default(PRIVATE)
 
 }

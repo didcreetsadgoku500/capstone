@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { auth } from "@/lib/auth";
 import { verifyRole } from "@/lib/permissions";
+import DashboardClient from "./dashboardClient";
 
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
@@ -27,6 +28,10 @@ export default async function Page({ params }: { params: { tournamentId: string 
         return <Unauthorized tournamentId={params.tournamentId}/>
     }
 
+
+    
+
+
     return <div className="mx-auto max-w-screen-xl w-full">
         <Card className="max-w-screen-xl grid grid-cols-4">
             <div className="col-span-1">
@@ -44,47 +49,8 @@ export default async function Page({ params }: { params: { tournamentId: string 
                 <CardTitle>Dashboard</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="grid w-full items-center gap-4">
-
-                    <div>
-                        <Label htmlFor="name">Tournament Name</Label>
-                        <Input id="name" placeholder="Name of your tournament" 
-                        defaultValue={tournamentDetails.tourName}/>
-                    </div>
-
-                    <div>
-                        <Label htmlFor="desc">Description</Label>
-                        <Textarea id="desc" placeholder="Describe your tournament" 
-                        defaultValue={tournamentDetails.tourDesc}
-                        />
-                    </div>
-
-                    <div>
-                        <Label htmlFor="min">Rank Range</Label>
-                        <div className="flex flex-row items-center max-w-96 w-full justify-between">
-
-                            <Input  id="min" placeholder="Min" type="number" step={1} 
-                            defaultValue={tournamentDetails.minRank ? tournamentDetails.minRank : ""}/>
-                            <span className="mx-3"> - </span>
-                            <Input id="min" placeholder="Max" type="number" step={1}
-                            defaultValue={tournamentDetails.maxRank ? tournamentDetails.maxRank : ""}/>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center max-w-96 w-full justify-between">
-                        <Label htmlFor="bws">Use Badge Weighted Seeding</Label>
-                        <Switch id="bws" defaultChecked={tournamentDetails.usesBWS ? true : false}/>
-                    </div>
-
-
-                </div>
+                <DashboardClient tournamentDetails={tournamentDetails}/>
             </CardContent>
-            <CardFooter>
-                <div className="flex w-full justify-end">
-
-                <Button disabled={true}>Save changes</Button>
-                </div>
-            </CardFooter>
             </div>
             
         </Card>
@@ -93,6 +59,10 @@ export default async function Page({ params }: { params: { tournamentId: string 
 
   }
 
+
+function save() {
+
+}
 
 
 function Unauthenticated() {

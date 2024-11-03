@@ -1,10 +1,5 @@
 import { getTournament } from "@/app/api/queries/getTournament";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { auth } from "@/lib/auth";
 import { verifyRole } from "@/lib/permissions";
 import DashboardClient from "./dashboardClient";
@@ -26,10 +21,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
     const tournamentDetails = await tournamentDetailsPromise;
     if (tournamentDetails == null) {
         return <Unauthorized tournamentId={params.tournamentId}/>
-    }
-
-
-    
+    }    
 
 
     return <div className="mx-auto max-w-screen-xl w-full">

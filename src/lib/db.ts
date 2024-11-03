@@ -17,9 +17,9 @@ if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
 
 declare global {
     interface BigInt {
-        toJSON(): Number;
+        toJSON(): String;
     }
   }
   
-  BigInt.prototype.toJSON = function () { return Number(this) }
+  BigInt.prototype.toJSON = function () { return String(this) }
   

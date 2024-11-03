@@ -9,6 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
+import updateTournament from "@/app/api/queries/updateTournament"
 
 const schema = z.object({
   tourName: z.string().min(1, "Tournament name is required").max(50, "Tournament name must be 50 characters or less"),
@@ -29,7 +30,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function DashboardClient({ tournamentDetails }: { tournamentDetails?: Tournament }) {
-  const { register, handleSubmit, formState: { errors, isDirty }, control } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors, dirtyFields, isSubmitting}, control } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       tourName: tournamentDetails?.tourName || "",
@@ -40,10 +41,8 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
     }
   })
 
-  const onSubmit = (data: FormData) => console.log(data)
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit((formdata) => onSubmitForm(tournamentDetails?.tournamentId, formdata))} className="space-y-6">
       <div className="space-y-2">
         <Label htmlFor="tourName">Tournament Name</Label>
         <Input
@@ -99,8 +98,18 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={!isDirty}>Save changes</Button>
+        <Button className="transition-all" type="submit" disabled={Object.keys(dirtyFields).length == 0 || isSubmitting}>Save changes</Button>
       </div>
     </form>
   )
+}
+
+
+async function onSubmitForm(tournamentID: bigint | undefined, formdata: FormData) {
+    if (tournamentID) {
+        await updateTournament(tournamentID, formdata);
+        return;
+    }
+
+    // TODO: Handle creating a tournament
 }

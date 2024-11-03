@@ -1,3 +1,4 @@
+import { getTournament } from "@/app/api/queries/getTournament";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +9,8 @@ import { verifyRole } from "@/lib/permissions";
 
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
+    const tournamentDetailsPromise = getTournament(BigInt(params.tournamentId));
+
     const session = await auth();
 
     if (!session || !session.user.id) {
@@ -15,6 +18,11 @@ export default async function Page({ params }: { params: { tournamentId: string 
     }
     const permission = await verifyRole(session.user.id, `tournament-${params.tournamentId}`, "host")
     if (!permission) {
+        return <Unauthorized tournamentId={params.tournamentId}/>
+    }
+
+    const tournamentDetails = await tournamentDetailsPromise;
+    if (tournamentDetails == null) {
         return <Unauthorized tournamentId={params.tournamentId}/>
     }
 
@@ -39,12 +47,12 @@ export default async function Page({ params }: { params: { tournamentId: string 
 
                     <div>
                         <Label htmlFor="name">Tournament Name</Label>
-                        <Input id="name" placeholder="Name of your tournament" />
+                        <Input id="name" placeholder="Name of your tournament" defaultValue={tournamentDetails.tourName}/>
                     </div>
 
                     <div>
                         <Label htmlFor="desc">Description</Label>
-                        <Textarea id="desc" placeholder="Describe your tournament" />
+                        <Textarea id="desc" placeholder="Describe your tournament" defaultValue={tournamentDetails.tourDesc}/>
                     </div>
 
                     <div>
@@ -80,4 +88,4 @@ function Unauthenticated() {
 
 
 function Unauthorized({tournamentId}: {tournamentId: string}) {
-    return (<div className="mx-auto">Missing required permissions for tournament ID {tournamentId}. </div>)  }
+    return (<div className="mx-auto">Missing required permissions for tournament ID {tournamentId}. </div>)  }    

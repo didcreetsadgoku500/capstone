@@ -5,7 +5,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -70,7 +69,6 @@ export default function CreateTournamentDialog({TriggerComponent}: {TriggerCompo
 }
 
 async function onCreateSubmit(formdata: FormData) {
-    console.log("fired")
     const newTournament = await createTournament(formdata.tourName)
 
     if (newTournament == 0) {

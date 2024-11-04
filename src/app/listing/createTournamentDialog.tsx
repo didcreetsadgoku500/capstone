@@ -32,8 +32,7 @@ export default function CreateTournamentDialog({TriggerComponent}: {TriggerCompo
 
 
     return (
-        <form onSubmit={e => {e.preventDefault(); console.log("e")}}>
-
+        
         <Dialog>
             <DialogTrigger asChild>
                     {TriggerComponent}
@@ -45,6 +44,7 @@ export default function CreateTournamentDialog({TriggerComponent}: {TriggerCompo
                         Your tournament won't be made public just yet!
                     </DialogDescription>
                     </DialogHeader>
+            <form id="createTournamentDialog" onSubmit={handleSubmit(onCreateSubmit)}>
 
                     <div className="space-y-2">
                         <Label htmlFor="tourName">Tournament Name</Label>
@@ -56,14 +56,14 @@ export default function CreateTournamentDialog({TriggerComponent}: {TriggerCompo
                         />
                         {errors.tourName && <p className="text-sm text-red-500">{errors.tourName.message}</p>}
                     </div>
+        </form>
                     <div className="flex justify-end">
-                        <Button className="transition-all" type="submit" disabled={!isValid || isSubmitting}>Create</Button>
+                        <Button form="createTournamentDialog" className="transition-all" type="submit" disabled={!isValid || isSubmitting}>Create</Button>
                     </div>
 
 
                 </DialogContent>
         </Dialog>
-        </form>
 
 
     )
@@ -74,7 +74,7 @@ async function onCreateSubmit(formdata: FormData) {
     const newTournament = await createTournament(formdata.tourName)
 
     if (newTournament == 0) {
-        // TODO: unexpected behavior error
+        // TODO: handle unexpected behavior error
         return;
     }
 

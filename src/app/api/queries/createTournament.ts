@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export default async function createTournament(tourName: string) {
     
     const session = await auth()
-    if (!session?.user.id) {
+    if (!session || !session.user.id) {
         return 0;
     }
 
@@ -23,7 +23,7 @@ export default async function createTournament(tourName: string) {
 
     await prisma.permission.create({
         data: {
-            userId: session.user.id,
+            userId: session.user.id.toString(),
             scope: "tournament-" + newTournament.tournamentId,
             role: "host"
         }

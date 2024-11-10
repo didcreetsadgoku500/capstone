@@ -52,11 +52,6 @@ export default async function Page({ params }: { params: { tournamentId: string 
   }
 
 
-function save() {
-
-}
-
-
 function Unauthenticated() {
     return <div className="mx-auto">You are not signed in</div>
   }

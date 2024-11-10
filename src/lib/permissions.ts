@@ -2,18 +2,36 @@
 import { Permission } from "@prisma/client";
 import prisma from "./db";
 
-export async function verifyRole(userID: string | null | undefined, scope: string, role: string): Promise<Permission | null> {
+export async function getRoles(userID: string | null | undefined, scope: string): Promise<Permission[]> {
     if (!userID) {
-        return null;
+        return [];
     }
 
-    const result = prisma.permission.findFirst({
-        where:  {
-            userId: userID.toString(),
-            scope: scope,
-            role: role
+
+    const result = prisma.permission.findMany({
+        where:  
+        {
+            AND: [
+                {
+
+                    userId: userID.toString(),
+                    scope: scope,
+                }
+            ]
+            
         }
     })
 
     return result;
+}
+
+export async function verifyRole(userID: string | null | undefined, scope: string, roles: string[]): Promise<Permission[] | null> {
+
+    const userRoles = (await getRoles(userID, scope)).filter((role) => roles.includes(role.role));
+
+    if (userRoles.length == 0) {
+        return null;
+    }
+
+    return userRoles;
 }

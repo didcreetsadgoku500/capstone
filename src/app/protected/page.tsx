@@ -8,7 +8,8 @@ export default async function MyPage() {
     }
 
 
-    const permission = await verifyRole(session.user.id, "admin", "global")
+    const permission = await verifyRole(session.user.id, "global", ["admin"])
+    console.log(permission)
     if (!permission) {
         return (<div>Missing required permission admin. {JSON.stringify(session)}</div>)
     }

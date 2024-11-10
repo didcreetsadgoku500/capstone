@@ -9,7 +9,7 @@ export default async function updateTournament(tournamentId: bigint, data: Parti
     
     const session = await auth()
 
-    const role = await verifyRole(session?.user.id, `tournament-${tournamentId}`, "host")
+    const role = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host"])
 
     await prisma.tournament.update({
         where: {

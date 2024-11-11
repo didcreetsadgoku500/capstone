@@ -24,30 +24,8 @@ export default async function Page({ params }: { params: { tournamentId: string 
     }    
 
 
-    return <div className="mx-auto max-w-screen-xl w-full">
-        <Card className="max-w-screen-xl grid grid-cols-4">
-            <div className="col-span-1">
-
-            <CardHeader>
-                <CardTitle>Navigate</CardTitle>
-            </CardHeader>
-            <CardContent>
-
-            </CardContent>
-            </div>
-            <div className="col-span-3">
-
-            <CardHeader>
-                <CardTitle>Dashboard</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <DashboardClient tournamentDetails={tournamentDetails}/>
-            </CardContent>
-            </div>
-            
-        </Card>
-        </div>
-        
+    return (<DashboardClient tournamentDetails={tournamentDetails}/>)
+                
 
   }
 

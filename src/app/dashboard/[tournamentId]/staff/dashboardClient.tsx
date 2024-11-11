@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Permission } from "@prisma/client";
 import { useState } from "react";
+import AddStaffDialog from "./addStaffDialog";
 
 
 export default function DashboardClient({tournamentId, staff}: {tournamentId: string, staff: Permission[]}) {
@@ -40,6 +41,15 @@ export default function DashboardClient({tournamentId, staff}: {tournamentId: st
                     ))}
                 </TableBody>
             </Table>
+            <AddStaffDialog 
+            tournamentId={tournamentId} 
+            onStaffAdd={(formdata) => {
+                setRows([...rows, {userId: formdata.userId.toString(), role: formdata.role}])
+            }}
+            TriggerComponent={
+
+                <Button>Add Staff</Button>
+            } />
         </div>
 )
 }

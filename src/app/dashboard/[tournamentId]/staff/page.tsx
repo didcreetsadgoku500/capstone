@@ -1,9 +1,8 @@
-import { Label } from "@/components/ui/label";
 import { Unauthenticated, Unauthorized } from "../errorViews";
 import { verifyRole } from "@/lib/permissions";
 import { auth } from "@/lib/auth";
 import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import DashboardClient from "./dashboardClient";
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
     const session = await auth();
@@ -19,19 +18,8 @@ export default async function Page({ params }: { params: { tournamentId: string 
     const tournamentStaff = await getTournamentStaff(BigInt(params.tournamentId))
 
     return (
-
-        <div className="space-y-2">
-           <Label>Staff roles</Label>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>User</TableHead>
-                        <TableHead>Role</TableHead>
-                    </TableRow>
-                    
-                </TableHeader>
-            </Table>
-        </div>
+        <DashboardClient tournamentId={params.tournamentId} staff={tournamentStaff}/>
+        
     )
 
 }

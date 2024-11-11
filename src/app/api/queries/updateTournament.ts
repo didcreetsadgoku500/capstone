@@ -11,6 +11,10 @@ export default async function updateTournament(tournamentId: bigint, data: Parti
 
     const role = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host"])
 
+    if (!role || role.length == 0) {
+        return 0
+    }
+
     await prisma.tournament.update({
         where: {
             tournamentId

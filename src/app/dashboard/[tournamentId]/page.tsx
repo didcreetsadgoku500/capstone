@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { auth } from "@/lib/auth";
 import { verifyRole } from "@/lib/permissions";
 import DashboardClient from "./dashboardClient";
+import { Unauthenticated, Unauthorized } from "./errorViews";
 
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
@@ -30,10 +31,3 @@ export default async function Page({ params }: { params: { tournamentId: string 
   }
 
 
-function Unauthenticated() {
-    return <div className="mx-auto">You are not signed in</div>
-  }
-
-
-function Unauthorized({tournamentId}: {tournamentId: string}) {
-    return (<div className="mx-auto">Missing required permissions for tournament ID {tournamentId}. </div>)  }    

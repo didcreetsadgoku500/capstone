@@ -1,15 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Separator } from './ui/separator'
+import { Gamemode } from '@prisma/client'
 
 
-export default function Component() {
+const gamemodes = [Gamemode.STANDARD, Gamemode.TAIKO, Gamemode.CTB, Gamemode.MANIA]
+
+export default function GamemodeSelect({onGamemodeChange}: {onGamemodeChange?: (Gamemode: Gamemode) => void}) {
   const [selectedMode, setSelectedMode] = useState(0)
 
+  if (onGamemodeChange) {
+
+      useEffect(() => {
+          onGamemodeChange(gamemodes[selectedMode])
+        }, [selectedMode])
+    }
+
   return (
-    <div className="w-full max-w-md mx-auto p-4">
-      <h2 className="text-lg font-semibold mb-2">Gamemode</h2>
       <div className="relative  rounded-full p-1 flex w-fit">
         <div className='relative flex'>
 
@@ -71,6 +79,5 @@ export default function Component() {
 
         </div>
       </div>
-    </div>
   )
 }

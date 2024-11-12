@@ -4,19 +4,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
-import { Tournament } from "@prisma/client"
+import { Gamemode, Tournament } from "@prisma/client"
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import updateTournament from "@/app/api/queries/updateTournament"
+import GamemodeSelect from "@/components/gamemodeSelect"
 
 const schema = z.object({
   tourName: z.string().min(1, "Tournament name is required").max(50, "Tournament name must be 50 characters or less"),
   tourDesc: z.string(),
   minRank: z.coerce.number().int().optional(),
   maxRank: z.coerce.number().int().optional(),
-  usesBWS: z.boolean()
+  usesBWS: z.boolean(),
+  gamemode: z.nativeEnum(Gamemode)
 }).refine((data) => {
   if (data.minRank && data.maxRank) {
     return data.minRank < data.maxRank
@@ -37,7 +39,8 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
       tourDesc: tournamentDetails?.tourDesc || "",
       minRank: tournamentDetails?.minRank || undefined,
       maxRank: tournamentDetails?.maxRank || undefined,
-      usesBWS: tournamentDetails?.usesBWS || false
+      usesBWS: tournamentDetails?.usesBWS || false,
+      gamemode: tournamentDetails?.gamemode || "STANDARD"
     }
   })
 
@@ -63,6 +66,12 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
         {errors.tourDesc && <p className="text-sm text-red-500">{errors.tourDesc.message}</p>}
       </div>
 
+      <div className="space-y-2">
+
+      <Label>Gamemode</Label>
+
+      <GamemodeSelect onGamemodeChange={(gm) => {console.log(gm)}} />
+</div>
       <div className="space-y-2">
         <Label>Rank Range</Label>
         <div className="flex items-center space-x-2">

@@ -1,5 +1,5 @@
 import prisma from "@/lib/db"
-import { Tournament, Visibility } from "@prisma/client"
+import { Tournament } from "@prisma/client"
 
 export async function getTournaments() {
     const tournaments = await prisma.tournament.findMany({
@@ -11,7 +11,7 @@ export async function getTournaments() {
             }
         },
         where: {
-            visibility: Visibility.PUBLIC
+            public: true
         },
         take: 20
     })

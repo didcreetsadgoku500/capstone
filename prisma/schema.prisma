@@ -26,7 +26,7 @@ model Tournament {
   minRank Int?
   maxRank Int?
   usesBWS Boolean?
-  visibility Visibility @default(PRIVATE)
+  public Boolean @default(false)
 
 }
 
@@ -91,9 +91,4 @@ enum MatchStatus {
   IN_PROGRESS
   PAUSED
   ENDED
-}
-
-enum Visibility {
-  PUBLIC
-  PRIVATE
 }

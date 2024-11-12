@@ -18,7 +18,8 @@ const schema = z.object({
   minRank: z.coerce.number().int().optional(),
   maxRank: z.coerce.number().int().optional(),
   usesBWS: z.boolean(),
-  gamemode: z.nativeEnum(Gamemode)
+  public: z.boolean(),
+  gamemode: z.nativeEnum(Gamemode),
 }).refine((data) => {
   if (data.minRank && data.maxRank) {
     return data.minRank < data.maxRank
@@ -40,7 +41,9 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
       minRank: tournamentDetails?.minRank || undefined,
       maxRank: tournamentDetails?.maxRank || undefined,
       usesBWS: tournamentDetails?.usesBWS || false,
+      public: tournamentDetails?.public || false,
       gamemode: tournamentDetails?.gamemode || "STANDARD"
+
     }
   })
 

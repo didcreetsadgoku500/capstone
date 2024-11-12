@@ -21,7 +21,7 @@ interface TournamentCardProps {
 export default function TournamentCard({ details, action = "register"}: TournamentCardProps) {
     return (
       <Link href={`/dashboard/${details.tournamentId}`}>
-      <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer">
+      <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer transition-shadow">
         <img className="w-full h-20 object-cover rounded-lg" src={details.bannerUrl || ""} alt="Tournament Banner" />
         <div className="flex flex-col flex-grow overflow-hidden mt-2">
           <h3 className="text-md font-medium">{details.tourName}</h3>

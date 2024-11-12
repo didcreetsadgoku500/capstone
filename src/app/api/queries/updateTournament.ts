@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 import { verifyRole } from "@/lib/permissions";
 import { Tournament } from "@prisma/client";
+import { revalidatePath } from 'next/cache'
 
 export default async function updateTournament(tournamentId: bigint, data: Partial<Tournament>) {
     
@@ -21,6 +22,8 @@ export default async function updateTournament(tournamentId: bigint, data: Parti
         },
         data
     })
+    revalidatePath(`/dashboard/${tournamentId}/`, 'page')
+
 
     return;
 }

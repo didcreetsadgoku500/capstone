@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 import { verifyRole } from "@/lib/permissions";
+import { revalidatePath } from "next/cache";
 
 export async function addStaff(tournamentId: bigint, userId: string, roles: string[]) {
     const session = await auth()
@@ -16,6 +17,8 @@ export async function addStaff(tournamentId: bigint, userId: string, roles: stri
     const result = await prisma.permission.createMany({
         data
     });
+
+    revalidatePath(`/dashboard/${tournamentId}/staff`, 'page')
 
     return result;
 

@@ -18,7 +18,7 @@ model Tournament {
   tournamentId   BigInt @id @default(autoincrement())
   tourName String
   tourDesc String
-  bannerUrl String?
+  bannerUrl String @default("/strafeSmoke.jpg")
   gamemode Gamemode
   currentStage Int
   stages Stage[]

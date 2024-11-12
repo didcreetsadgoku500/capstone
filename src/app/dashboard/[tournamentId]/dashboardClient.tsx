@@ -109,6 +109,21 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
         />
       </div>
 
+      <div className="flex items-center justify-between">
+        <Label htmlFor="public">Public</Label>
+        <Controller
+          control={control}
+          name="public"
+          render={({ field }) => (
+            <Switch
+              id="public"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          )}
+        />
+      </div>
+
       <div className="flex justify-end">
         <Button className="transition-all" type="submit" disabled={Object.keys(dirtyFields).length == 0 || isSubmitting}>Save changes</Button>
       </div>

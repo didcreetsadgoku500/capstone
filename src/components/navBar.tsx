@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuConten
 import { UserRound } from "lucide-react";
 import { NavBarLoginItem } from "./navBarLoginItem";
 import { Separator } from "./ui/separator";
+import Link from "next/link";
 
 
 
@@ -20,7 +21,7 @@ export async function NavBar() {
         <div className="flex flex-col max-w-screen-xl mx-auto">
             
         <div className="flex flex-row justify-between items-end">
-            <h1 className={logoStyles}>tournament.sh</h1>
+            <h1 className={logoStyles}><Link href="/listing">tournament.sh</Link></h1>
             
                 
             <DropdownMenu modal={false}>

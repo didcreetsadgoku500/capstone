@@ -73,7 +73,21 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
 
       <Label>Gamemode</Label>
 
-      <GamemodeSelect onGamemodeChange={(gm) => {console.log(gm)}} />
+
+
+
+      <Controller 
+        control={control}
+        name="gamemode"
+        render={({field}) => (
+          <GamemodeSelect gamemode={field.value} onGamemodeChange={field.onChange} />
+
+        )}
+      />
+
+
+
+
 </div>
       <div className="space-y-2">
         <Label>Rank Range</Label>

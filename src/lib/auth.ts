@@ -31,6 +31,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: ProfileData
+    access_token: string
   }
 
   interface Profile extends ProfileData {}
@@ -39,6 +40,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     user: ProfileData;
+    access_token: string
   }
 }
 
@@ -47,7 +49,10 @@ declare module "next-auth/jwt" {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Osu],
   callbacks: {
-    jwt({ token, profile}) {
+    jwt({ token, profile, account}) {
+      if (account && account.access_token) {
+        token.access_token = account.access_token
+      }
 
       if (profile) {
         profile = narrowProfile(profile);
@@ -59,7 +64,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return {
         ...session,
         user: {
-          ...token.user}
+          ...token.user},
+        access_token: token.access_token
       }
     }
   }

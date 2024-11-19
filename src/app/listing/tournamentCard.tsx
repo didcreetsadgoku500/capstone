@@ -7,20 +7,13 @@ import { register } from "../api/queries/register";
 import RegisterButton from "@/components/registerButton";
 
 
-// interface TournamentDetails {
-//   title: string,
-//   description: string,
-//   bannerSrc: string,
-//   tournamentId: number,
-// }
-
 
 interface TournamentCardProps {
   details: ITournament
-  action?: "register" | "unregister"
+  isRegistered?: boolean
 }
 
-export default function TournamentCard({ details, action = "register"}: TournamentCardProps) {
+export default function TournamentCard({ details, isRegistered = false}: TournamentCardProps) {
     return (
       <Link href={`/dashboard/${details.tournamentId}`}>
       <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer transition-shadow">
@@ -32,7 +25,7 @@ export default function TournamentCard({ details, action = "register"}: Tourname
         <div className="flex justify-between mt-2">
           <span className={`flex flex-row items-center font-medium`}> <UserRoundIcon className="mr-1 opacity-75" /> {details._count.registrations}</span>
           {/* button go here */}
-          <RegisterButton details={details}/>
+          <RegisterButton details={details} isDefaultRegistered={isRegistered}/>
 
         </div>
       </div>

@@ -5,10 +5,22 @@ import TournamentsTableView from "./tournamentsTableView";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CreateTournamentDialog from "./createTournamentDialog";
+import { getRegistered } from "../api/queries/getRegistered";
 
 
 export default async function ListingsPage() {
-    const tournaments = await getTournaments();
+    const tournamentsPromise = getTournaments();
+    const registeredTournaments = await getRegistered();
+
+    let tournaments = await tournamentsPromise;
+
+    if (registeredTournaments.body) {
+        const registeredTournamentIds = new Set(registeredTournaments.body.map(reg => reg.tournamentId));
+        tournaments = tournaments.map(t => ({
+            ...t,
+            registered: registeredTournamentIds.has(t.tournamentId)
+        }))
+    }
     
     return (
         <div className="max-w-screen-xl w-full mx-auto grid grid-cols-4 gap-6">

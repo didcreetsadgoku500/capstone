@@ -1,8 +1,5 @@
-import { h3Styles } from "@/components/textStyles";
-import { Separator } from "@/components/ui/separator";
 import TournamentCard from "./tournamentCard";
 import { ITournament } from "../api/queries/getTournaments";
-import { Registrations } from "@prisma/client";
 
 
 export default function TournamentsTableView({tournaments}: {tournaments: ITournament[]}) {

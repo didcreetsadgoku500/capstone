@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 import { ServerActionResponse } from "@/lib/serverActionResponse";
 import { Gamemode } from "@prisma/client";
-import { Client } from 'osu-web.js';
 
 
 
@@ -19,6 +18,9 @@ export async function register(tournamentId: bigint): Promise<ServerActionRespon
     const tournament = await prisma.tournament.findFirst({
         where: {
             tournamentId: tournamentId
+        },
+        include: {
+            registrations: true
         }
     })
 
@@ -46,15 +48,27 @@ export async function register(tournamentId: bigint): Promise<ServerActionRespon
         (tournament.maxRank && playerRank > tournament.maxRank) ||
         (tournament.minRank && playerRank < tournament.minRank)
     ) {
+        console.log("Max rank: ", tournament.maxRank)
+        console.log("Min rank: ", tournament.minRank)
+            console.log(playerRank)
+        
         return {"error": "You are not within the rank range for this tournament."}
     }
 
+    const userId = session.user.id.toString()
+
+    // Check already registered
+    for (const registration of tournament.registrations) {
+        if (registration.userId == userId) {
+            return {"error": "You are already registered for this tournament."}
+        }
+    }
 
 
     // Register if good
     await prisma.registrations.create({
         data: {
-            userId: session.user.id,
+            userId: userId,
             tournamentId: tournamentId
         }
     })

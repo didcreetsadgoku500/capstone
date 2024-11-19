@@ -2,24 +2,36 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
+import { onlyUnique } from "@/lib/helper";
 import { verifyRole } from "@/lib/permissions";
 import { revalidatePath } from "next/cache";
+import { Client } from "osu-web.js";
 
 export async function addStaff(tournamentId: bigint, userId: string, roles: string[]) {
     const session = await auth()
     const userRole = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host"])
-    if (!userRole || userRole.length == 0) {
-        return 0;
+    if (!userRole || userRole.length == 0 || !session) {
+        return {error: "Not authenticated"};
     }
 
     const data = roles.map((item) => {return {userId: userId, scope: `tournament-${tournamentId}`,role: item}})
 
-    const result = await prisma.permission.createMany({
+    const tournamentStaff = await prisma.permission.createManyAndReturn({
         data
     });
 
     revalidatePath(`/dashboard/${tournamentId}/staff`, 'page')
 
-    return result;
+    const osu = new Client(session.access_token)
+
+    const userDetails = await osu?.users.getUsers({query: {ids: tournamentStaff.map(u => Number(u.userId)).filter(onlyUnique)}})
+
+    const extendedStaff = tournamentStaff.map(t => ({
+        ...t,
+        userDetails: userDetails?.find(u => u.id == Number(t.userId))
+    }))
+
+
+    return {body: extendedStaff};
 
 }

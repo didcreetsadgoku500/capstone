@@ -23,8 +23,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
     }
     console.log()
 
-    let osu;
-    osu = new Client(session.access_token)
+    const osu = new Client(session.access_token)
 
     const userDetails = await osu?.users.getUsers({query: {ids: tournamentStaff.body.map(u => Number(u.userId)).filter(onlyUnique)}})
 

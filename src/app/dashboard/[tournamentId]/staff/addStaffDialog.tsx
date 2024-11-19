@@ -47,8 +47,7 @@ export default function AddStaffDialog({tournamentId, TriggerComponent, onStaffA
                         Enter the user ID and role of your new staff member.
                     </DialogDescription>
                     </DialogHeader>
-            <form id="addStaffDialog" onSubmit={handleSubmit(async (formdata) => {
-                const res = await onDialogSubmit(BigInt(tournamentId), formdata)
+            <form id="addStaffDialog" onSubmit={handleSubmit((formdata) => {
                 onStaffAdd(formdata)
                 setOpen(false)
 
@@ -84,15 +83,6 @@ export default function AddStaffDialog({tournamentId, TriggerComponent, onStaffA
     )
 }
 
-async function onDialogSubmit(tournamentId: bigint, formdata: FormData) {
-    const newStaff = await addStaff(tournamentId, formdata.userId.toString(), [formdata.role])
-
-    if (newStaff == 0) {
-        // TODO: handle unexpected behavior error
-        return;
-    }
-
-    return newStaff;
 
 
-}
+

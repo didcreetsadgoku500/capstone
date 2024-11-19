@@ -7,6 +7,7 @@ import { Permission } from "@prisma/client";
 import { useState } from "react";
 import AddStaffDialog from "./addStaffDialog";
 import { UserCompact } from "osu-web.js";
+import { addStaff } from "@/app/api/queries/addStaff";
 
 type StaffDetails = Permission & {
     userDetails: UserCompact | undefined
@@ -46,9 +47,16 @@ export default function DashboardClient({tournamentId, staff}: {tournamentId: st
                 </TableBody>
             </Table>
             <AddStaffDialog 
-            tournamentId={tournamentId} 
-            onStaffAdd={(formdata) => {
-                setRows([...rows, {userId: formdata.userId.toString(), role: formdata.role}])
+            tournamentId={tournamentId}
+             
+            onStaffAdd={async (formdata) => {
+                // const res = await onDialogSubmit(BigInt(tournamentId), formdata)
+                const newStaff = await addStaff(BigInt(tournamentId), formdata.userId.toString(), [formdata.role])
+                
+                if (newStaff.body) {
+
+                    setRows([...rows, ...(newStaff.body)])
+                }
             }}
             TriggerComponent={
 

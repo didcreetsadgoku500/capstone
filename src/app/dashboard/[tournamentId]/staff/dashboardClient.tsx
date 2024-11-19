@@ -6,9 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Permission } from "@prisma/client";
 import { useState } from "react";
 import AddStaffDialog from "./addStaffDialog";
+import { UserCompact } from "osu-web.js";
 
+type StaffDetails = Permission & {
+    userDetails: UserCompact | undefined
+}
 
-export default function DashboardClient({tournamentId, staff}: {tournamentId: string, staff: Permission[]}) {
+export default function DashboardClient({tournamentId, staff}: {tournamentId: string, staff: StaffDetails[]}) {
     const [rows, setRows] = useState(staff)
 
     function removeRole(roleID: bigint) {
@@ -34,7 +38,7 @@ export default function DashboardClient({tournamentId, staff}: {tournamentId: st
                 <TableBody>
                     {rows.map((row) => (
                         <TableRow key={row.id}>
-                            <TableCell>{row.userId}</TableCell>
+                            <TableCell><span className="flex flex-row items-center gap-5"><img className="w-12 h-12 rounded-full" src={`${row.userDetails?.avatar_url}`}/> {row.userDetails?.username}</span></TableCell>
                             <TableCell>{row.role}</TableCell>
                             <TableCell className="text-center"><Button onClick={() => removeRole(row.id)}>Remove</Button></TableCell>
                         </TableRow>

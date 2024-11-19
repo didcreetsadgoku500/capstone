@@ -32,3 +32,7 @@ export function narrowProfile(profile: Profile): ProfileData {
 
   return result;
 }
+
+export function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}

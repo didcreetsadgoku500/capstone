@@ -3,8 +3,10 @@ import { verifyRole } from "@/lib/permissions";
 import { auth } from "@/lib/auth";
 import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
 import DashboardClient from "./dashboardClient";
-import { Client, isOsuJSError } from "osu-web.js";
-import { onlyUnique } from "@/lib/helper";
+import { getRegistered } from "@/app/api/queries/getRegistered";
+import { getTournamentRegistrants } from "@/app/api/queries/getTournamentRegistrants";
+import { dataUserDetails, joinUserDetails } from "@/app/api/joinUserData";
+import { Registrations } from "@prisma/client";
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
     const session = await auth();
@@ -17,24 +19,19 @@ export default async function Page({ params }: { params: { tournamentId: string 
         return <Unauthorized tournamentId={params.tournamentId}/>
     }
 
-    const tournamentStaff = await getTournamentStaff(BigInt(params.tournamentId))
-    if (!tournamentStaff.body) {
+    const registrants = await getTournamentRegistrants(BigInt(params.tournamentId))
+    if (!registrants.body) {
         return <OtherError />
     }
-    console.log()
 
-    const osu = new Client(session.access_token)
 
-    const userDetails = await osu?.users.getUsers({query: {ids: tournamentStaff.body.map(u => Number(u.userId)).filter(onlyUnique)}})
+    const detailedRegistrants = await joinUserDetails(registrants.body, (r) => Number(r.userId))
 
-    const extendedStaff = tournamentStaff.body.map(t => ({
-        ...t,
-        userDetails: userDetails?.find(u => u.id == Number(t.userId))
-    }))
-    console.log(extendedStaff)
+
+
 
     return (
-        <DashboardClient tournamentId={params.tournamentId} staff={extendedStaff}/>
+        <DashboardClient tournamentId={params.tournamentId} registrants={detailedRegistrants}/>
         
     )
 

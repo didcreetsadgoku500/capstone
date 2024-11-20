@@ -2,21 +2,28 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
+import { verifyRole } from "@/lib/permissions";
 import { ServerActionResponse } from "@/lib/serverActionResponse";
+import { revalidatePath } from "next/cache";
 
 
 
-export async function unregister(tournamentId: bigint): Promise<ServerActionResponse<boolean>> {
+export async function unregister(tournamentId: bigint, regIds?: bigint[]): Promise<ServerActionResponse<boolean>> {
+    if (regIds) {
+        return await unregisterStaffside(tournamentId, regIds)
+    }
+
     const session = await auth();
 
     if (!session || !session.user.id) {
         return {"error": "You must be logged in to withdraw from a tournament."};
     }
+    
+
 
     const userId = session.user.id.toString()
 
 
-    // Register if good
     const res = await prisma.registrations.deleteMany({
         where: {
             userId: userId,
@@ -32,5 +39,32 @@ export async function unregister(tournamentId: bigint): Promise<ServerActionResp
     else {
         return {"error": "Unknown error occurred."} // How would we even get here?
     }
+
+}
+
+async function unregisterStaffside(tournamentId: bigint, regIds?: bigint[]): Promise<ServerActionResponse<boolean>> {
+    const session = await auth();
+
+    if (!session || !session.user.id) {
+        return {"error": "How did you get here."};
+    }
+
+    const roles = await verifyRole(session.user.id, `tournament-${tournamentId}`, ["host", "cohost"])
+
+    if (!roles) {
+        return {"error": "How did you get here."};
+    }
+
+    const res = await prisma.registrations.deleteMany({
+        where: {
+            regId: {
+                in: regIds
+            }
+        }
+    });
+    
+    revalidatePath(`/dashboard/${tournamentId}/registrations`, 'page')
+
+    return {"body": res.count > 0}
 
 }

@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db"
 import { ServerActionResponse } from "@/lib/serverActionResponse";
 import { Gamemode } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -73,6 +74,7 @@ export async function register(tournamentId: bigint): Promise<ServerActionRespon
         }
     })
 
+    revalidatePath(`/dashboard/${tournamentId}/registrations`, 'page')
 
     // Return response
     return {"body": true}

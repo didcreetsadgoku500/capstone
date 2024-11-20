@@ -21,7 +21,7 @@ export default function DashboardClient({tournamentId, registrants}: {tournament
 
 
         <div className="space-y-2">
-           <Label>Staff roles</Label>
+           <Label>Player registrations</Label>
             <Table>
                 <TableHeader>
                     <TableRow>

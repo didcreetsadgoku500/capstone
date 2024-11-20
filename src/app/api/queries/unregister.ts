@@ -37,7 +37,7 @@ export async function unregister(tournamentId: bigint, regIds?: bigint[]): Promi
         return {"body": true}
     }
     else {
-        return {"error": "Unknown error occurred."} // How would we even get here?
+        return {"error": "Failed to withdraw. Did a host kick you from the tournament?"} // How would we even get here?
     }
 
 }

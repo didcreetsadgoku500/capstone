@@ -59,6 +59,9 @@ const config: Config = {
   		},
 		fontFamily: {
 			sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans]
+		},
+		aspectRatio: {
+			'banner': '10/3'
 		}
   	}
   },

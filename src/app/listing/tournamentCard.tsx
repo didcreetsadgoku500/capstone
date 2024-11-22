@@ -15,7 +15,7 @@ interface TournamentCardProps {
 
 export default function TournamentCard({ details, isRegistered = false}: TournamentCardProps) {
     return (
-      <Link href={`/dashboard/${details.tournamentId}`}>
+      <Link href={`/listing/${details.tournamentId}`}>
       <div className="border rounded-lg p-3 flex flex-col w-[300px] h-60 hover:shadow-md bg-card cursor-pointer transition-shadow">
         <img className="w-full aspect-banner object-cover rounded-lg" src={details.bannerUrl || ""} alt="Tournament Banner" />
         <div className="flex flex-col flex-grow overflow-hidden mt-2">

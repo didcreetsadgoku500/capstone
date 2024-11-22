@@ -10,7 +10,20 @@ import { Edit } from "lucide-react"
 import Link from "next/link"
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
-  const tournamentId = BigInt((await params).tournamentId)
+  console.log(params)
+
+  if (!params.tournamentId || params.tournamentId == 'undefined') {
+    return <div>Loading</div>
+  }
+
+
+  // let tournamentId
+  // try {
+    const tournamentId = BigInt(params.tournamentId)
+  // } catch {
+  //   return <div>Loading</div>
+  // }
+
   const promises = { 0: getTournament(tournamentId), 1: getTournamentRegistrants(tournamentId), 2: auth(), 3: getTournamentStaff(tournamentId)}
   const tournament = await promises[0]
   const registrants = await promises[1]

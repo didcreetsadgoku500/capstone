@@ -1,8 +1,8 @@
 import { DetailsNavItem } from "./detailsNavItem"
 
 
-export async function DetailsNav({params}: {params: Promise<{tournamentId: string}>}) {
-    const tournamentId = (await params).tournamentId
+export async function DetailsNav({params}: {params: {tournamentId: string}}) {
+    const tournamentId = params.tournamentId
     const baseUrl = `/listing/${tournamentId}`
 
 

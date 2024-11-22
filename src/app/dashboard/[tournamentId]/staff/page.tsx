@@ -21,7 +21,6 @@ export default async function Page({ params }: { params: { tournamentId: string 
     if (!tournamentStaff.body) {
         return <OtherError />
     }
-    console.log()
 
     const osu = new Client(session.access_token)
 

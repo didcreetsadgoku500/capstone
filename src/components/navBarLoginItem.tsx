@@ -17,9 +17,6 @@ export function NavBarLoginItem({signedIn, session}: NavBarLoginItemProps) {
             "use server"
             await signOut()
         }}>
-            <DropdownMenuLabel className="text-center">{session?.user.username}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-
             <DropdownMenuItem asChild>
                 <button className="w-full text-center" type="submit">
                     <LogOutIcon /> <span>Sign Out</span>

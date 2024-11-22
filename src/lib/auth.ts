@@ -50,6 +50,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Osu({ authorization: "https://osu.ppy.sh/oauth/authorize?scope=identify+public"}),
   ],
+  session: {
+    maxAge: 86300
+  },
   callbacks: {
     jwt({ token, profile, account}) {
       if (account && account.access_token) {
@@ -65,6 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session({ session, token }) { 
       return {
         ...session,
+        
         user: {
           ...token.user},
         access_token: token.access_token

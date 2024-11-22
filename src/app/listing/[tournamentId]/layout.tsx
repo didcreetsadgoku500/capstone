@@ -6,14 +6,26 @@ import { DetailsNav } from "./detailsNav";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FallbackSkeleton } from "@/components/textSkeleton";
+import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
+import { auth } from "@/lib/auth";
 
 export default async function DetailsLayout({ children, params }: { children: React.ReactNode, params: Promise<{ tournamentId: string }>}) {
     const tournamentDetails = await getTournament(BigInt((await params).tournamentId))
     
-
     if (!tournamentDetails) {
         return (<div className="mx-auto">You shouldn't be here!</div>)
     }
+
+    if (!tournamentDetails.public) {
+        const session = await auth();
+
+        const staffRoles = (await getTournamentStaff(BigInt((await params).tournamentId))).body;
+        const isStaff = staffRoles?.find(r => r.userId == session?.user.id)
+        if (!isStaff) {
+            return (<div className="mx-auto">You shouldn't be here!</div>)
+        }
+    }
+
 
     return (
         <div className="w-full flex flex-col items-center">

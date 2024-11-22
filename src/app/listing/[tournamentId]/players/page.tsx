@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
                     {detailedRegistrants.map((row) => (
                         <TableRow key={row.data.regId}>
                             <TableCell><span className="flex flex-row items-center gap-5"><img className="w-12 h-12 rounded-full" src={`${row.userDetails?.avatar_url}`}/> {row.userDetails?.username}</span></TableCell>
-                            <TableCell>#{row.userDetails.statistics_rulesets.osu?.global_rank?.toLocaleString()}</TableCell>
+                            <TableCell>#{row.userDetails?.statistics_rulesets.osu?.global_rank?.toLocaleString()}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

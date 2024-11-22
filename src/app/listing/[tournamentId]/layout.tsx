@@ -10,7 +10,8 @@ import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
 import { auth } from "@/lib/auth";
 
 export default async function DetailsLayout({ children, params }: { children: React.ReactNode, params: Promise<{ tournamentId: string }>}) {
-    const tournamentDetails = await getTournament(BigInt((await params).tournamentId))
+    const tournamentId = (await params).tournamentId;
+    const tournamentDetails = await getTournament(BigInt(tournamentId))
     
     if (!tournamentDetails) {
         return (<div className="mx-auto">You shouldn't be here!</div>)

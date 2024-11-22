@@ -36,3 +36,9 @@ export function narrowProfile(profile: Profile): ProfileData {
 export function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
 }
+
+export function rankFormatter(rank: number) {
+  return new Intl.NumberFormat('en', { notation: 'compact' }).format(
+    rank,
+  )
+}

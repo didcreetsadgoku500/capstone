@@ -42,12 +42,10 @@ export default async function Page({ params }: { params: { tournamentId: string 
     </div>
     <div className="flex flex-col gap-2">
     <div className={smallStyles + " bg-zinc-100 flex flex-col gap-2 p-2 rounded-md h-fit"}>
-      <div className="flex flex-row w-48 justify-between">Gamemode <img src={icons[tournament.gamemode]} className="brightness-0 h-4 w-4" /></div>
+      <div className="flex flex-row w-48 justify-between">{gamemodeText[tournament.gamemode]} <img src={icons[tournament.gamemode]} className="brightness-0 h-4 w-4" /></div>
       <div className="flex flex-row w-48 justify-between">{tournament.usesBWS ? "Uses BWS" : "No BWS"}</div>
       <div className="flex flex-row w-48 justify-between">
-        {tournament.minRank ? rankFormatter(tournament.minRank) : "1"}
-         
-         {tournament.maxRank ? " - "  + rankFormatter(tournament.maxRank) : "+"}
+        {rankRangeFormatter(tournament.minRank, tournament.maxRank)}
 
       </div>
 
@@ -55,7 +53,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
       </div>
       {
         isStaff ? <Link href={`/dashboard/${tournamentId}`}
-          className="flex flex-row justify-center border-dashed border-2 rounded-md border-blue-200 hover:border-blue-300 transition-colors text-sm p-1 bg-blue-100/25"
+          className="flex flex-row items-center justify-center rounded-md hover:bg-blue-100/50 transition-colors text-sm p-1 bg-blue-100"
         >
             
             Edit Tournament <Edit className="ml-2" />
@@ -73,4 +71,29 @@ const icons = {
   [Gamemode.TAIKO]: "/mode-taiko.png",
   [Gamemode.CTB]: "/mode-fruits.png",
   [Gamemode.MANIA]: "/mode-mania.png",
+}
+
+const gamemodeText = {
+  [Gamemode.STANDARD]: "osu!",
+  [Gamemode.TAIKO]: "osu!taiko",
+  [Gamemode.CTB]: "osu!catch",
+  [Gamemode.MANIA]: "osu!mania",
+}
+
+const rankRangeFormatter = (minRank: number | undefined | null, maxRank: number | undefined | null) => {
+  if (!minRank && !maxRank) {
+    return "Open rank";
+  }
+
+  if (minRank && !maxRank) {
+    return rankFormatter(minRank) + "+";
+  }
+
+  if (!minRank && maxRank) {
+    return `1 - ${rankFormatter(maxRank)}`;
+  }
+
+  if (minRank && maxRank) {
+    return `${rankFormatter(minRank)} - ${rankFormatter(maxRank)}`;
+  }
 }

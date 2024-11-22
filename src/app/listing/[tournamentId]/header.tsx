@@ -6,17 +6,13 @@ import { getTournament } from "@/app/api/queries/getTournament";
 export async function DetailsHeader({params}: {params: {tournamentId: string}}) {
     const tournamentId = params.tournamentId
 
-    if (!tournamentId) {
+    if (!params.tournamentId || params.tournamentId == 'undefined') {
         return <div>Loading</div>
-    }
+      }
+    
+    const tournamentDetails = await getTournament(BigInt(tournamentId))
 
-    let tournamentDetails;
-    try {
-        tournamentDetails = await getTournament(BigInt(tournamentId))
-    } catch {
-        return <div>Loading</div>
-
-    }
+    
 
 
     return (<>

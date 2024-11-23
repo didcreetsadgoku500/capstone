@@ -1,3 +1,4 @@
+import { toggleStage } from "@/app/api/queries/toggleStage";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Stage } from "@prisma/client";
@@ -21,7 +22,9 @@ export function StageListItem({ stage, onDelete }: { stage: (Stage & { _count: {
                     {!specialStages.includes(stageName) && !stage.isBracket && "Your custom stage"}
                 </div>
             </div>
-            <Switch className="mr-5" />
+            <Switch onCheckedChange={async (val) => {
+                await toggleStage(stage.tournamentId, stage.stageNo, val)
+            }} className="mr-5" />
 
         </div>
 

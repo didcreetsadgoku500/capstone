@@ -5,14 +5,15 @@ import { StageListItem } from "./stageListItem";
 import { Button } from "@/components/ui/button";
 import AddStageDialog from "./addStageDialog";
 import { useToast } from "@/hooks/use-toast";
+import { createStage } from "@/app/api/queries/createStage";
 
-export default function DashboardClient({ defaultStages }: { defaultStages: (Stage & {_count: {matches: number}})[] }) {
+export default function DashboardClient({ defaultStages, tournamentId }: { defaultStages: (Stage & {_count: {matches: number}})[], tournamentId: string }) {
     const [stages, setStages] = useState(defaultStages)
     const { toast }  = useToast()
 
-    return (<div className="flex flex-col">
+    return (<div className="flex flex-col gap-4">
         {stages.map(s => <StageListItem key={s.stageNo} stage={s}/>)}
-        <AddStageDialog tournamentId={"1"} TriggerComponent={
+        <AddStageDialog TriggerComponent={
 
             <Button className="mt-4">
             Add Stage
@@ -27,9 +28,24 @@ export default function DashboardClient({ defaultStages }: { defaultStages: (Sta
                 })
             }
 
-
+            
             // Make a server action for creating a stage, then creating its matches, then returning stage object
             // then add the stage object to the state
+            const res = await createStage(BigInt(tournamentId), form)
+
+            if (res.error) {
+                toast({
+                    title: "Error",
+                    description: res.error,
+                    variant: "destructive"
+                })
+
+                return;
+            }
+
+            if (res.body) {
+                setStages([...stages, res.body])
+            }
             
         }}/>
     </div>

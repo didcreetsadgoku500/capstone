@@ -48,13 +48,13 @@ model Match {
   matchId Int @default(sequence())
   stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo])
 
-  team1Score Int
-  team2Score Int
-  team1Id String
-  team2Id String
+  team1Score Int @default(0)
+  team2Score Int @default(0)
+  team1Id String?
+  team2Id String?
 
   matchStatus MatchStatus
-  matchDateTime DateTime
+  matchDateTime DateTime?
   referee String?
 
   @@id([tournamentId, matchId])

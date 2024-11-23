@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
             </TableRow>
         </TableHeader>
     </Table>
-    <DashboardClient defaultStages={stages}/>
+    <DashboardClient defaultStages={stages} tournamentId={params.tournamentId}/>
     </div>
 
 )

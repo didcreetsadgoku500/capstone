@@ -29,7 +29,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 
-export default function AddStageDialog({ tournamentId, TriggerComponent, onStageAdd }: { tournamentId: string, TriggerComponent: React.ReactNode, onStageAdd: (formdata: FormData) => void }) {
+export default function AddStageDialog({ TriggerComponent, onStageAdd }: { TriggerComponent: React.ReactNode, onStageAdd: (formdata: FormData) => void }) {
     const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<FormData>({
         resolver: zodResolver(schema)
     })

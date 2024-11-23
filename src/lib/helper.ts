@@ -42,3 +42,9 @@ export function rankFormatter(rank: number) {
     rank,
   )
 }
+
+export function bws(rank: number, badges: number) {
+
+
+  return rank ** (0.9937 ** (badges ** 2))
+}

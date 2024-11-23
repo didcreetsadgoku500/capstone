@@ -11,23 +11,6 @@ import { auth } from "@/lib/auth";
 import { DetailsHeader } from "./header";
 
 export default function DetailsLayout({ children, params }: { children: React.ReactNode, params: { tournamentId: string }}) {
-    
-    
-    // if (!tournamentDetails) {
-    //     return (<div className="mx-auto">You shouldn't be here!</div>)
-    // }
-
-    // if (!tournamentDetails.public) {
-    //     const session = await auth();
-
-    //     const staffRoles = (await getTournamentStaff(BigInt(await (params.tournamentId))).body;
-    //     const isStaff = staffRoles?.find(r => r.userId == session?.user.id)
-    //     if (!isStaff) {
-    //         return (<div className="mx-auto">You shouldn't be here!</div>)
-    //     }
-    // }
-
-
     return (
         <div className="w-full flex flex-col items-center">
             <div className="max-w-screen-md w-full">

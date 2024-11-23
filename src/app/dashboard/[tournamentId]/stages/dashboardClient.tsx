@@ -13,6 +13,8 @@ export default function DashboardClient({ defaultStages, tournamentId }: { defau
     const { toast } = useToast()
 
     return (<div className="flex flex-col gap-4">
+        {stages.length == 0 && <p className="text-primary/75 text-sm">No stages yet. Add a <b>Registration</b> stage to get started.</p>}
+
         {stages.map(s =>
             <StageListItem key={s.stageNo} stage={s} onDelete={async () => {
                 let newStages = stages.filter((s2) => s2.stageNo != s.stageNo);

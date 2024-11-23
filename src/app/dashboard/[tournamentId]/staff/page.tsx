@@ -30,7 +30,6 @@ export default async function Page({ params }: { params: { tournamentId: string 
         ...t,
         userDetails: userDetails?.find(u => u.id == Number(t.userId))
     }))
-    console.log(extendedStaff)
 
     return (
         <DashboardClient tournamentId={params.tournamentId} staff={extendedStaff}/>

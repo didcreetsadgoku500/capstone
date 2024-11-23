@@ -12,6 +12,9 @@ export async function Sidebar({params}: {params: Promise<{tournamentId: string}>
             <SidebarItem route={`${baseUrl}/staff`}>
                 Staff
             </SidebarItem>
+            <SidebarItem route={`${baseUrl}/stages`}>
+                Stages
+            </SidebarItem>
             <SidebarItem route={`${baseUrl}/registrations`}>
                 Registrations
             </SidebarItem>

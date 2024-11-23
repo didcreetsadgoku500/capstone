@@ -20,7 +20,6 @@ model Tournament {
   tourDesc String
   bannerUrl String @default("/strafeSmoke.jpg")
   gamemode Gamemode
-  currentStage Int
   stages Stage[]
   registrations Registrations[]
   minRank Int?
@@ -38,6 +37,7 @@ model Stage {
   isBracket Boolean
   matches Match[]
   mappool Mappool[]
+  public Boolean @default(false)
 
   @@id([tournamentId, stageNo])
 }

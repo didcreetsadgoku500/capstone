@@ -13,7 +13,7 @@ export async function createStage(tournamentId: bigint, stage: Pick<Stage, 'stag
     }
 
     const session = await auth()
-    const userRole = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host, cohost"])
+    const userRole = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host", "cohost"])
     if (!userRole || userRole.length == 0 || !session) {
         return {error: "Not authorized"};
     }

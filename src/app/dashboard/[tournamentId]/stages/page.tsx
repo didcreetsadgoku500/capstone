@@ -27,6 +27,9 @@ export default async function Page({ params }: { params: { tournamentId: string 
                     matches: true
                 }
             }
+        },
+        orderBy: {
+            stageNo: "asc"
         }
     })
 

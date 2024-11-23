@@ -32,12 +32,13 @@ export default async function Page({ params }: { params: { tournamentId: string 
 
 
 
-    return (<div className="max-w-screen-sm">
-    <Table className="mb-4">
+    return (<div className="max-w-screen-md">
+    <Table className="mb-4 max-w-screen-md">
         <TableHeader>
             <TableRow>
             <TableHead>Stage</TableHead>
-            <TableHead className="w-24">Public</TableHead>
+            <TableHead className="w-36 text-right">Public</TableHead>
+            <TableHead className="min-w-24 w-36"></TableHead>
             </TableRow>
         </TableHeader>
     </Table>

@@ -1,13 +1,23 @@
 "use server"
 
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
+import { verifyRole } from "@/lib/permissions";
 import { ServerActionResponse } from "@/lib/serverActionResponse";
 import { Match, MatchStatus, Stage } from "@prisma/client";
 
 export async function createStage(tournamentId: bigint, stage: Pick<Stage, 'stageName' | 'isBracket'> & {matches?: number}): Promise<ServerActionResponse<Stage & {_count: {matches: number}}>> {
+    
     if (stage.isBracket && !stage.matches) {
         return {error: "Bracket stages must have at least one match"};
     }
+
+    const session = await auth()
+    const userRole = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host, cohost"])
+    if (!userRole || userRole.length == 0 || !session) {
+        return {error: "Not authorized"};
+    }
+
 
     const newStage = await prisma.stage.create({
         data: {

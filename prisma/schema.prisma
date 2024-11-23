@@ -46,7 +46,7 @@ model Match {
   tournamentId BigInt
   stageNo Int
   matchId Int @default(sequence())
-  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo])
+  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade, onUpdate: Cascade)
 
   team1Score Int @default(0)
   team2Score Int @default(0)
@@ -64,7 +64,7 @@ model Mappool {
   tournamentId BigInt
   stageNo Int
   mapId Int
-  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo])
+  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([tournamentId, stageNo, mapId])
 

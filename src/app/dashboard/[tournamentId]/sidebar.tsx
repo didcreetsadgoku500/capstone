@@ -18,6 +18,9 @@ export async function Sidebar({params}: {params: Promise<{tournamentId: string}>
             <SidebarItem route={`${baseUrl}/registrations`}>
                 Registrations
             </SidebarItem>
+            <SidebarItem route={`${baseUrl}/matches`}>
+                Matches
+            </SidebarItem>
         </div>
 
     )

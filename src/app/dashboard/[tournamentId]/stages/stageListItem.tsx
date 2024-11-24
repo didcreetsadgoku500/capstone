@@ -2,7 +2,7 @@ import { toggleStage } from "@/app/api/queries/toggleStage";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Stage } from "@prisma/client";
-import { Delete, DeleteIcon, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 
 
 const specialStages = ["registration"]

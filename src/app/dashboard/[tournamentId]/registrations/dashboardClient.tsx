@@ -32,6 +32,7 @@ export default function DashboardClient({tournamentId, registrants}: {tournament
                     
                 </TableHeader>
                 <TableBody>
+                    {rows.length == 0 && <p className="text-primary/75 text-sm p-2">No one signed up yet!</p>}
                     {rows.map((row) => (
                         <TableRow key={row.data.regId}>
                             <TableCell><span className="flex flex-row items-center gap-5"><img className="w-12 h-12 rounded-full" src={`${row.userDetails?.avatar_url}`}/> {row.userDetails?.username}</span></TableCell>

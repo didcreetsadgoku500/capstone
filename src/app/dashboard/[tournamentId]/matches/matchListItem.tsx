@@ -29,20 +29,24 @@ export default function MatchListItem({ match, users }: { match: Match, users: U
                 </div>
             </div>
 
+            <div className="text-4xl font-bold w-12 text-center">
+                {match.matchStatus != MatchStatus.NOT_STARTED && match.team1Score}
+            </div>
 
             <div className="flex-col flex items-center">
-                <div>
-                    {statusText(match.matchStatus)}
-                    </div>
+                
                 <div className="font-bold text-primary/50">
                     VS
-                    </div>
-                    <div className="text-primary/50 items-baseline mt-1">
+                </div>
+                <div className="text-primary/50 items-baseline mt-1">
 
                     {match.matchDateTime ? match.matchDateTime.toUTCString() : "Unscheduled"}
-                    </div>
+                </div>
+            </div>
 
-            
+            <div className="text-4xl font-bold w-12 text-center">
+
+                {match.matchStatus != MatchStatus.NOT_STARTED && match.team2Score}
             </div>
             <div className="flex-grow basis-0">
                 <div className="flex flex-row-reverse items-center p-2">
@@ -54,17 +58,17 @@ export default function MatchListItem({ match, users }: { match: Match, users: U
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div>
 
-        <div className="
+            <div className="
         -mt-4 group-hover:mt-0  group-focus:mt-0 group-active:mt-0
         xl:-ml-64 xl:group-hover:ml-0  xl:group-focus:ml-0 xl:mt-0 transition-all p-2 flex opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 xl:items-center">
-            <Button variant={"ghost"} className="text-primary-foreground"   >Edit <Edit className="w-4 h-4 ml-1"/></Button>
+                <Button variant={"ghost"} className="text-primary-foreground"   >Edit <Edit className="w-4 h-4 ml-1" /></Button>
             </div>
-            </div>
-        
+        </div>
+
     </div>
 }
 

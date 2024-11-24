@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Match, Stage } from "@prisma/client";
 import MatchListItem from "./matchListItem";
 import { UserCompact } from "osu-web.js";
+import EditMatchDialog from "./editMatchDialog";
 
 export default function DashboardClient({ tournamentId, matches, stages, users }: 
     { tournamentId: string, matches: Match[], stages: Stage[], users: UserCompact[] }) {
@@ -18,9 +19,9 @@ export default function DashboardClient({ tournamentId, matches, stages, users }
                         <div className="flex flex-col gap-4 p-2">
 
                         {matches.filter(m => m.stageNo == stage.stageNo).map(match =>
-                            <MatchListItem key={match.matchId} match={match} users={users} onEdit={() => {
-                                
-                            }}/>
+                            <MatchListItem key={match.matchId} match={match} users={users} sidePanel={
+                            <EditMatchDialog match={match}/>
+                        }/>
                             
                         )}
                         </div>

@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Match, MatchStatus } from "@prisma/client"
 import { Edit, User, UserRound } from "lucide-react";
 import { UserCompact } from "osu-web.js"
+import { ReactNode } from "react";
 
-export default function MatchListItem({ match, users, onEdit }: { match: Match, users: UserCompact[], onEdit: () => void }) {
+export default function MatchListItem({ match, users, sidePanel }: { match: Match, users: UserCompact[], sidePanel?: ReactNode }) {
     const team1 = users.find(u => u.id == Number(match.team1Id));
     const team2 = users.find(u => u.id == Number(match.team2Id));
 
@@ -72,11 +73,12 @@ export default function MatchListItem({ match, users, onEdit }: { match: Match, 
         </div>
         <div>
 
-            <div className="
+             {!!sidePanel && <div className="
         -mt-4 group-hover:mt-0  group-focus:mt-0 group-active:mt-0
         xl:-ml-64 xl:group-hover:ml-0  xl:group-focus:ml-0 xl:mt-0 transition-all p-2 flex opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 xl:items-center">
-                <Button variant={"ghost"} className="text-primary-foreground"  onClick={onEdit} >Edit <Edit className="w-4 h-4 ml-1" /></Button>
-            </div>
+                {/* <Button variant={"ghost"} className="text-primary-foreground"  onClick={onEdit} >Edit <Edit className="w-4 h-4 ml-1" /></Button> */}
+                {sidePanel}
+            </div>}
         </div>
 
     </div>

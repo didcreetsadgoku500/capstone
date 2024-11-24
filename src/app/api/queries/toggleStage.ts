@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { verifyRole } from "@/lib/permissions";
+import { revalidatePath } from "next/cache";
 
 export async function toggleStage(tournamentId: bigint, stageNo: number, val: boolean) {
     const session = await auth()
@@ -22,6 +23,8 @@ export async function toggleStage(tournamentId: bigint, stageNo: number, val: bo
             public: val
         }
     })
+
+    revalidatePath(`/listing/${tournamentId}/schedule`, 'page')
 
     return {body: true}
 

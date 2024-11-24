@@ -2,7 +2,7 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Match, Stage } from "@prisma/client";
-import MatchListItem from "./matchListItem";
+import MatchListItem from "@/components/matchListItem";
 import { UserCompact } from "osu-web.js";
 import EditMatchDialog from "./editMatchDialog";
 

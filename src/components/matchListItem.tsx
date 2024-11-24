@@ -1,8 +1,5 @@
-"use client"
-
-import { Button } from "@/components/ui/button";
 import { Match, MatchStatus } from "@prisma/client"
-import { Edit, User, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
 import { UserCompact } from "osu-web.js"
 import { ReactNode } from "react";
 
@@ -14,7 +11,7 @@ export default function MatchListItem({ match, users, sidePanel }: { match: Matc
     return <div className="group rounded-md bg-primary/80 transition-all flex
     max-w-screen-sm xl:max-w-[650px]  
     max-h-28 hover:max-h-48 focus:max-h-48
-    flex-col xl:flex-row overflow-clip xl:items-center">
+    flex-col xl:flex-row overflow-clip xl:items-center w-full">
 
     <div className="flex flex-col border rounded-md px-2 bg-primary-foreground z-10 max-w-screen-sm w-full">
         
@@ -76,7 +73,6 @@ export default function MatchListItem({ match, users, sidePanel }: { match: Matc
              {!!sidePanel && <div className="
         -mt-4 group-hover:mt-0  group-focus:mt-0 group-active:mt-0
         xl:-ml-64 xl:group-hover:ml-0  xl:group-focus:ml-0 xl:mt-0 transition-all p-2 flex opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 xl:items-center">
-                {/* <Button variant={"ghost"} className="text-primary-foreground"  onClick={onEdit} >Edit <Edit className="w-4 h-4 ml-1" /></Button> */}
                 {sidePanel}
             </div>}
         </div>

@@ -5,6 +5,7 @@ import prisma from "@/lib/db";
 import { verifyRole } from "@/lib/permissions";
 import { ServerActionResponse } from "@/lib/serverActionResponse";
 import { Match, MatchStatus, Stage } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function createStage(tournamentId: bigint, stage: Pick<Stage, 'stageName' | 'isBracket'> & {matches?: number}): Promise<ServerActionResponse<Stage & {_count: {matches: number}}>> {
     
@@ -44,6 +45,10 @@ export async function createStage(tournamentId: bigint, stage: Pick<Stage, 'stag
     await prisma.match.createMany({
         data: matchData
     })
+
+    revalidatePath(`/dashboard/${tournamentId}/stages`, 'page')
+    revalidatePath(`/dashboard/${tournamentId}/matches`, 'page')
+    revalidatePath(`/dashboard/${tournamentId}/mappools`, 'page')
 
     return {body: {...newStage, _count: {matches: stage.matches || 0}}}
 }

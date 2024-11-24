@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react"
 import { SidebarItem } from "./sidebarItem"
 
 export async function Sidebar({params}: {params: Promise<{tournamentId: string}>}) {
@@ -20,6 +21,11 @@ export async function Sidebar({params}: {params: Promise<{tournamentId: string}>
             </SidebarItem>
             <SidebarItem route={`${baseUrl}/matches`}>
                 Matches
+            </SidebarItem>
+            <SidebarItem route={`/listing/${tournamentId}`}>
+                <span className="flex flex-row items-center">
+                    Listing <ExternalLink className="w-4 h-4 ml-1"/>
+                    </span>
             </SidebarItem>
         </div>
 

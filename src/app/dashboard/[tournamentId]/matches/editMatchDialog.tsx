@@ -57,11 +57,11 @@ const schema = z.object({
 
 })
 
-type FormData = z.infer<typeof schema>
+export type MatchFormData = z.infer<typeof schema>
 
 
-export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formdata: FormData) => void, match: Match }) {
-    const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<FormData>({
+export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formdata: MatchFormData) => void, match: Match }) {
+    const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<MatchFormData>({
         resolver: zodResolver(schema),
         defaultValues: {
             team1Id: match.team1Id || undefined,

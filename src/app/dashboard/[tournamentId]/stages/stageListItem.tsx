@@ -22,7 +22,7 @@ export function StageListItem({ stage, onDelete }: { stage: (Stage & { _count: {
                     {!specialStages.includes(stageName) && !stage.isBracket && "Your custom stage"}
                 </div>
             </div>
-            <Switch onCheckedChange={async (val) => {
+            <Switch defaultChecked={stage.public} onCheckedChange={async (val) => {
                 await toggleStage(stage.tournamentId, stage.stageNo, val)
             }} className="mr-5" />
 

@@ -1,7 +1,9 @@
+import { statusText } from "@/lib/helper";
 import { Match, MatchStatus } from "@prisma/client"
 import { UserRound } from "lucide-react";
 import { UserCompact } from "osu-web.js"
 import { ReactNode } from "react";
+
 
 export default function MatchListItem({ match, users, sidePanel }: { match: Match, users: UserCompact[], sidePanel?: ReactNode }) {
     const team1 = users.find(u => u.id == Number(match.team1Id));
@@ -78,19 +80,4 @@ export default function MatchListItem({ match, users, sidePanel }: { match: Matc
         </div>
 
     </div>
-}
-
-function statusText(status: MatchStatus) {
-    if (status == MatchStatus.NOT_STARTED) {
-        return "Not Started"
-    }
-    if (status == MatchStatus.ENDED) {
-        return "Completed"
-    }
-    if (status == MatchStatus.IN_PROGRESS) {
-        return "In Progress"
-    }
-    if (status == MatchStatus.PAUSED) {
-        return "Paused"
-    }
 }

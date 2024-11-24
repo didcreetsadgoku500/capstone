@@ -1,8 +1,8 @@
 "use client"
 
+import { Combobox } from "@/components/combobox"
 import { DatePicker } from "@/components/datepicker"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
 import {
     Dialog,
     DialogContent,
@@ -13,16 +13,33 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Switch } from "@/components/ui/switch"
+import { statusText } from "@/lib/helper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Match, MatchStatus } from "@prisma/client"
-import { PopoverPortal } from "@radix-ui/react-popover"
 import { Edit } from "lucide-react"
 import { useState } from "react"
 import { Controller, useForm } from 'react-hook-form'
 
 import { z } from "zod"
+
+const MatchStatusOptions = [
+    {
+        value: MatchStatus.IN_PROGRESS,
+        label: statusText(MatchStatus.IN_PROGRESS) || ""
+    },
+    {
+        value: MatchStatus.NOT_STARTED,
+        label: statusText(MatchStatus.NOT_STARTED) || ""
+    },
+    {
+        value: MatchStatus.ENDED,
+        label: statusText(MatchStatus.ENDED) || ""
+    },
+    {
+        value: MatchStatus.PAUSED,
+        label: statusText(MatchStatus.PAUSED) || ""
+    },
+]
 
 
 const schema = z.object({
@@ -35,7 +52,7 @@ const schema = z.object({
     team2Score: z.coerce.number().step(1).optional(),
     referee: z.string(),
     matchDate: z.date().optional(),
-    matchStatus: z.nativeEnum(MatchStatus)
+    matchStatus: z.nativeEnum(MatchStatus).optional()
 
 
 })
@@ -136,7 +153,25 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                             />
                         </div>
 
-                        
+
+                        <div>
+                        <Label htmlFor="matchStatus">Match Status</Label>
+
+                        <Controller
+                            control={control}
+                            name="matchStatus"
+                            render={({ field }) => (
+                                <Combobox
+                                    options={MatchStatusOptions}
+                                    placeholder="Select status..."
+                                    className="w-full"
+                                    value={field.value}
+                                    onChange={field.onChange}
+
+                                />)}
+                        />
+                        </div>
+
 
 
                     </div>

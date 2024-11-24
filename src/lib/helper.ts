@@ -1,3 +1,4 @@
+import { MatchStatus } from "@prisma/client";
 import { ProfileData } from "./auth";
 import { Profile } from "next-auth"
 
@@ -47,4 +48,20 @@ export function bws(rank: number, badges: number) {
 
 
   return rank ** (0.9937 ** (badges ** 2))
+}
+
+
+export function statusText(status: MatchStatus) {
+  if (status == MatchStatus.NOT_STARTED) {
+      return "Not Started"
+  }
+  if (status == MatchStatus.ENDED) {
+      return "Completed"
+  }
+  if (status == MatchStatus.IN_PROGRESS) {
+      return "In Progress"
+  }
+  if (status == MatchStatus.PAUSED) {
+      return "Paused"
+  }
 }

@@ -27,16 +27,16 @@ export type ComboboxItem<T> = {
 interface ComboboxProps<T> {
     value?: T,
     options: ComboboxItem<T>[],
-    onChange?: (item: ComboboxItem<T> | undefined) => void
+    onChange?: (item: T | undefined) => void
     className?: string,
-    placeholder?: string
+    placeholder?: string,
   }
 
 
-export function Combobox<T>({value, options, onChange, placeholder}: ComboboxProps<T>) {
+export function Combobox<T>({value, options, onChange, placeholder, className}: ComboboxProps<T>) {
   const [open, setOpen] = React.useState(false)
 //   const [value, setValue] = React.useState("")
- 
+    console.log(value)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -44,27 +44,29 @@ export function Combobox<T>({value, options, onChange, placeholder}: ComboboxPro
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between", className)}
         >
           {value
-            ? options.find((value) => value.value === value)?.label
+            ? options.find((v) => v.value === value)?.label
             : placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder={placeholder} />
           <CommandList>
-            <CommandEmpty>None.</CommandEmpty>
+            <CommandEmpty>No matches found</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.label}
                   value={option.label}
                   onSelect={(currentLabel) => {
-                    const currentItem = options.find((v) => v.label)
-                    if (onChange) onChange(currentItem && currentItem.label === currentLabel ? undefined : currentItem)
+                    const currentItem = options.find((v) => v.label === currentLabel)
+                    const deselecting = currentItem && currentItem.value == value
+                    console.log(deselecting)
+                    if (onChange) onChange(deselecting ? undefined : currentItem?.value)
                     setOpen(false)
                   }}
                 >

@@ -20,7 +20,7 @@ export default function DashboardClient({ tournamentId, matches, stages, users }
 
                         {matches.filter(m => m.stageNo == stage.stageNo).map(match =>
                             <MatchListItem key={match.matchId} match={match} users={users} sidePanel={
-                            <EditMatchDialog match={match}/>
+                            <EditMatchDialog match={match} onSubmit={console.log}/>
                         }/>
                             
                         )}

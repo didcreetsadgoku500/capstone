@@ -12,13 +12,13 @@ export default function DashboardClient({ tournamentId, matches, stages, users }
     return (<>
         <Accordion type="multiple">
             {stages.filter(s => s.isBracket).map(stage =>
-                <AccordionItem value={stage.stageName}>
+                <AccordionItem key={stage.stageNo} value={stage.stageName}>
                     <AccordionTrigger>{stage.stageName}</AccordionTrigger>
                     <AccordionContent>
                         <div className="flex flex-col gap-4 p-2">
 
                         {matches.filter(m => m.stageNo == stage.stageNo).map(match =>
-                            <MatchListItem match={match} users={users}/>
+                            <MatchListItem key={match.matchId} match={match} users={users}/>
                             
                         )}
                         </div>

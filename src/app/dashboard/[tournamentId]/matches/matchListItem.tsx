@@ -14,10 +14,12 @@ export default function MatchListItem({ match, users }: { match: Match, users: U
 
     return <div className="group rounded-md bg-primary/80 transition-all flex
     max-w-screen-sm xl:max-w-[650px]  
-    max-h-24 hover:max-h-48 focus:max-h-48
+    max-h-28 hover:max-h-48 focus:max-h-48
     flex-col xl:flex-row overflow-clip xl:items-center">
 
-        <div className="flex flex-row border rounded-md p-2 items-center justify-between max-w-screen-sm w-full bg-primary-foreground z-10">
+    <div className="flex flex-col border rounded-md px-2 bg-primary-foreground z-10 max-w-screen-sm w-full">
+        
+                <div className="flex flex-row items-center justify-between">
             <div className="flex-grow basis-0">
                 <div className="flex flex-row items-center p-2">
 
@@ -38,10 +40,7 @@ export default function MatchListItem({ match, users }: { match: Match, users: U
                 <div className="font-bold text-primary/50">
                     VS
                 </div>
-                <div className="text-primary/50 items-baseline mt-1">
-
-                    {match.matchDateTime ? match.matchDateTime.toUTCString() : "Unscheduled"}
-                </div>
+                
             </div>
 
             <div className="text-4xl font-bold w-12 text-center">
@@ -59,6 +58,19 @@ export default function MatchListItem({ match, users }: { match: Match, users: U
                 </div>
             </div>
 
+            
+            
+            </div>
+
+            <div className="px-2 pb-2 text-primary/50 justify-between flex flex-row">
+                <div>
+
+                {statusText(match.matchStatus)} • {match.referee ? `Assigned to ${match.referee}` : "Not assigned referee"}
+                </div>
+                <div>
+                    {match.matchDateTime ? match.matchDateTime.toUTCString() : "Unscheduled"}
+                </div>
+            </div>
         </div>
         <div>
 

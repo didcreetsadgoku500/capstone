@@ -1,6 +1,8 @@
 "use client"
 
+import { DatePicker } from "@/components/datepicker"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
     Dialog,
     DialogContent,
@@ -11,9 +13,11 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Switch } from "@/components/ui/switch"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Match, MatchStatus } from "@prisma/client"
+import { PopoverPortal } from "@radix-ui/react-popover"
 import { Edit } from "lucide-react"
 import { useState } from "react"
 import { Controller, useForm } from 'react-hook-form'
@@ -54,7 +58,10 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
         }
     })
 
+
+
     const [open, setOpen] = useState(false);
+
 
     return (
 
@@ -74,14 +81,14 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
 
 
 
-{/* Begin form content */}
+                    {/* Begin form content */}
                     <div className="space-y-3">
                         <div>
                             <Label htmlFor="team1Id">Player 1</Label>
                             <Input
                                 id="team1Id"
                                 {...register('team1Id')}
-                                />
+                            />
                         </div>
 
                         <div>
@@ -89,7 +96,7 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                             <Input
                                 id="team2Id"
                                 {...register('team2Id')}
-                                />
+                            />
                         </div>
 
                         <div>
@@ -97,16 +104,16 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                             <Input
                                 id="referee"
                                 {...register('referee')}
-                                />
+                            />
                         </div>
-                        
+
                         <div>
                             <Label htmlFor="team1Score">Player 1 Score</Label>
                             <Input
                                 id="team1Score"
                                 {...register('team1Score')}
                                 type="number"
-                                />
+                            />
                         </div>
 
                         <div>
@@ -115,12 +122,25 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                                 id="team2Score"
                                 {...register('team2Score')}
                                 type="number"
-                                />
+                            />
                         </div>
+
+                        <div>
+                            <Label htmlFor="matchDate">Match Date</Label>
+                            <Controller
+                                control={control}
+                                name="matchDate"
+                                render={({ field }) => (
+                                    <DatePicker value={field.value} onChange={field.onChange} className="w-full" />
+                                )}
+                            />
+                        </div>
+
+                        
 
 
                     </div>
-{/* End form content */}
+                    {/* End form content */}
 
 
                 </form>

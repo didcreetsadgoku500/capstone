@@ -18,7 +18,9 @@ export default function DashboardClient({ tournamentId, matches, stages, users }
                         <div className="flex flex-col gap-4 p-2">
 
                         {matches.filter(m => m.stageNo == stage.stageNo).map(match =>
-                            <MatchListItem key={match.matchId} match={match} users={users}/>
+                            <MatchListItem key={match.matchId} match={match} users={users} onEdit={() => {
+                                
+                            }}/>
                             
                         )}
                         </div>

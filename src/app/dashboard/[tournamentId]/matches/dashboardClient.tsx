@@ -23,7 +23,7 @@ export default function DashboardClient({ tournamentId, defaultMatches, stages, 
 
                         {matches.filter(m => m.stageNo == stage.stageNo).sort((a, b) => a.matchId - b.matchId).map(match =>
                             <MatchListItem key={match.matchId} match={match} users={users} sidePanel={
-                            <EditMatchDialog match={match} onSubmit={async (data) => {
+                            <EditMatchDialog users={users} match={match} onSubmit={async (data) => {
                                 const res = await updateMatch(match, data)
                                 if (res.error || !res.body) {
                                     return

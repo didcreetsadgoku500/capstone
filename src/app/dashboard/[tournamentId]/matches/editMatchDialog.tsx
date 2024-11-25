@@ -17,6 +17,7 @@ import { statusText } from "@/lib/helper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Match, MatchStatus } from "@prisma/client"
 import { Edit } from "lucide-react"
+import { UserCompact } from "osu-web.js"
 import { useState } from "react"
 import { Controller, useForm } from 'react-hook-form'
 
@@ -60,7 +61,8 @@ const schema = z.object({
 export type MatchFormData = z.infer<typeof schema>
 
 
-export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formdata: MatchFormData) => void, match: Match }) {
+export default function EditMatchDialog({ onSubmit, match, users }: 
+    { onSubmit: (formdata: MatchFormData) => void, match: Match, users: UserCompact[] }) {
     const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<MatchFormData>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -79,6 +81,10 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
 
     const [open, setOpen] = useState(false);
 
+    const PlayerOptions = users.map(u => ({
+        value: String(u.id),
+        label: u.username
+    }))
 
     return (
 
@@ -102,18 +108,36 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                     <div className="space-y-3">
                         <div>
                             <Label htmlFor="team1Id">Player 1</Label>
-                            <Input
-                                id="team1Id"
-                                {...register('team1Id')}
-                            />
+                            <Controller
+                            control={control}
+                            name="team1Id"
+                            render={({ field }) => (
+                                <Combobox
+                                    options={PlayerOptions}
+                                    placeholder="Select player..."
+                                    className="w-full"
+                                    value={field.value}
+                                    onChange={field.onChange}
+
+                                />)}
+                        />
                         </div>
 
                         <div>
                             <Label htmlFor="team2Id">Player 2</Label>
-                            <Input
-                                id="team2Id"
-                                {...register('team2Id')}
-                            />
+                            <Controller
+                            control={control}
+                            name="team2Id"
+                            render={({ field }) => (
+                                <Combobox
+                                    options={PlayerOptions}
+                                    placeholder="Select player..."
+                                    className="w-full"
+                                    value={field.value}
+                                    onChange={field.onChange}
+
+                                />)}
+                        />
                         </div>
 
                         <div>

@@ -25,6 +25,9 @@ export default async function updateMatch(match: Match, formdata: MatchFormData)
 
     revalidatePath(`/dashboard/${match.tournamentId}/matches`)
     revalidatePath(`/listing/${match.tournamentId}/schedule`)
+    revalidatePath(`/users/${match.team1Id}/`)
+    revalidatePath(`/users/${match.team2Id}/`)
+
 
     return {body: res}
 

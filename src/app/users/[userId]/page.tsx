@@ -1,3 +1,5 @@
+import { joinUserDetails } from "@/app/api/joinUserData";
+import MatchListItem from "@/components/matchListItem";
 import { h2Styles, h3Styles, largeStyles, smallStyles } from "@/components/textStyles";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -7,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { bws } from "@/lib/helper";
+import { MatchStatus } from "@prisma/client";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Client } from "osu-web.js";
@@ -55,6 +58,42 @@ export default async function Userpage({ params }: { params: { userId: string } 
         }
     })
 
+
+    const upcomingMatches = await prisma.match.findMany({
+        where: {
+            OR: [
+                {team1Id: userId.toString()},
+                {team2Id: userId.toString()},
+            ],
+            matchStatus: {
+                in: [MatchStatus.IN_PROGRESS, MatchStatus.NOT_STARTED]
+            },
+            matchDateTime: {
+                gte: new Date()
+            },
+            stage: {
+                public: true
+            }
+        },
+        include: {
+            stage: true
+        },
+        orderBy: {
+            matchDateTime: 'asc'
+        }
+    })
+
+    const opponentIds = upcomingMatches.map((m) => {
+        if (m.team1Id == userId.toString()) {
+            return m.team2Id
+        }
+        return m.team1Id
+    }).filter(i => i != null)
+
+    upcomingMatches.forEach((m) => m.referee && opponentIds.push(m.referee))
+    opponentIds.push(userId.toString())
+
+    const opponents = await joinUserDetails(opponentIds, (i) => Number(i))
 
     return (
         <div className="w-full flex flex-col items-center">
@@ -111,9 +150,30 @@ export default async function Userpage({ params }: { params: { userId: string } 
                         }
                     </CardHeader>
                     <CardContent>
+
+
+                    <Label>
+                            Upcoming Matches
+                        </Label>
+                        {upcomingMatches.length == 0 && 
+                        <div className="text-primary/50 mb-16">There's nothing here!</div>}
+                        {upcomingMatches.length > 0 && 
+                            <div className="flex flex-col gap-4 p-2 items-center w-full mb-8">
+
+                            {opponents && upcomingMatches.map(match =>
+                                <MatchListItem key={match.matchId} match={match} users={opponents.map(m=>m.userDetails)} referees={opponents.map(m=>m.userDetails)}/>
+                                
+                            )}
+                            </div>
+                        }
+
+
+                        
                         <Label>
                             Staffing History
                         </Label>
+                        {staffedTournaments.length == 0 && 
+                        <div className="text-primary/50">There's nothing here!</div>}
                         {staffedTournaments.length > 0 && 
                         <Table>
                             <TableHeader>
@@ -142,11 +202,7 @@ export default async function Userpage({ params }: { params: { userId: string } 
                             </TableBody>
                         </Table>
                         }
-                        {staffedTournaments.length == 0 && <div className="text-primary/50">
-                            There's nothing here!
-
-                        </div>
-                            }
+                        
                     </CardContent>
                 </Card>
             </div>

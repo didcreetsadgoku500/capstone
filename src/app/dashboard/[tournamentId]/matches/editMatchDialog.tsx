@@ -51,7 +51,7 @@ const schema = z.object({
     team1Score: z.coerce.number().step(1).optional(),
     team2Score: z.coerce.number().step(1).optional(),
     referee: z.string(),
-    matchDate: z.date().optional(),
+    matchDateTime: z.date().optional(),
     matchStatus: z.nativeEnum(MatchStatus).optional()
 
 
@@ -69,7 +69,7 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
             team1Score: match.team1Score,
             team2Score: match.team2Score,
             referee: match.referee || undefined,
-            matchDate: match.matchDateTime || undefined,
+            matchDateTime: match.matchDateTime || undefined,
             matchStatus: match.matchStatus
 
         }
@@ -143,10 +143,10 @@ export default function EditMatchDialog({ onSubmit, match }: { onSubmit: (formda
                         </div>
 
                         <div>
-                            <Label htmlFor="matchDate">Match Date</Label>
+                            <Label htmlFor="matchDateTime">Match Date</Label>
                             <Controller
                                 control={control}
-                                name="matchDate"
+                                name="matchDateTime"
                                 render={({ field }) => (
                                     <DatePicker value={field.value} onChange={field.onChange} className="w-full" />
                                 )}

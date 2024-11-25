@@ -44,5 +44,5 @@ export default async function Page({ params }: { params: { tournamentId: string 
 
     const regsDetails = res.map(r => r.userDetails)
 
-    return <DashboardClient tournamentId={params.tournamentId} matches={matches} stages={stages} users={regsDetails}/>
+    return <DashboardClient tournamentId={params.tournamentId} defaultMatches={matches} stages={stages} users={regsDetails}/>
 }

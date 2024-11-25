@@ -1,21 +1,27 @@
 import { statusText } from "@/lib/helper";
+import { cn } from "@/lib/utils";
 import { Match, MatchStatus } from "@prisma/client"
 import { UserRound } from "lucide-react";
 import { UserCompact } from "osu-web.js"
 import { ReactNode } from "react";
 
 
+const bgColors = {
+    [MatchStatus.NOT_STARTED]: "bg-primary/80",
+    [MatchStatus.IN_PROGRESS]: "bg-green-400",
+    [MatchStatus.ENDED]: "bg-blue-400",
+    [MatchStatus.PAUSED]: "bg-red-500",
+}
+
 export default function MatchListItem({ match, users, referees, sidePanel }: { match: Match, users: UserCompact[], referees: UserCompact[], sidePanel?: ReactNode }) {
     const team1 = users.find(u => u.id == Number(match.team1Id));
     const team2 = users.find(u => u.id == Number(match.team2Id));
-    console.log(referees)
     const ref = referees.find(u => u.id == Number(match.referee));
 
-
-    return <div className="group rounded-md bg-primary/80 transition-all flex
+    return <div className={cn(`group rounded-md bg-gre transition-all flex
     max-w-screen-sm xl:max-w-[650px]  
     max-h-28 hover:max-h-48 focus:max-h-48
-    flex-col xl:flex-row overflow-clip xl:items-center w-full">
+    flex-col xl:flex-row overflow-clip xl:items-center w-full`, bgColors[match.matchStatus])}>
 
     <div className="flex flex-col border rounded-md px-2 bg-primary-foreground z-10 max-w-screen-sm w-full">
         

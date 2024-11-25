@@ -68,7 +68,7 @@ export default function MatchListItem({ match, users, referees, sidePanel }: { m
             
             </div>
 
-            <div className="px-2 pb-2 text-primary/50 justify-between flex flex-row">
+            <div className="px-2 pb-2 text-primary/50 text-sm justify-between flex flex-row">
                 <div>
 
                 {statusText(match.matchStatus)} • {ref ? `Assigned to ${ref.username}` : "Not assigned referee"}

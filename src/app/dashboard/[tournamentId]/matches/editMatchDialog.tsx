@@ -47,12 +47,13 @@ const schema = z.object({
     // matches: z.coerce.number().step(1).optional(),
     // stageName: z.string().min(1),
     // isBracket: z.boolean()
-    team1Id: z.string(),
-    team2Id: z.string(),
+    team1Id: z.string().optional(),
+    team2Id: z.string().optional(),
     team1Score: z.coerce.number().step(1).optional(),
     team2Score: z.coerce.number().step(1).optional(),
-    referee: z.string(),
+    referee: z.string().optional(),
     matchDateTime: z.date().optional(),
+    matchTime: z.string().optional(),
     matchStatus: z.nativeEnum(MatchStatus).optional()
 
 
@@ -61,7 +62,7 @@ const schema = z.object({
 export type MatchFormData = z.infer<typeof schema>
 
 
-export default function EditMatchDialog({ onSubmit, match, users }: 
+export default function EditMatchDialog({ onSubmit, match, users }:
     { onSubmit: (formdata: MatchFormData) => void, match: Match, users: UserCompact[] }) {
     const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<MatchFormData>({
         resolver: zodResolver(schema),
@@ -72,6 +73,7 @@ export default function EditMatchDialog({ onSubmit, match, users }:
             team2Score: match.team2Score,
             referee: match.referee || undefined,
             matchDateTime: match.matchDateTime || undefined,
+            matchTime: match.matchDateTime ? match.matchDateTime.toISOString().split(/T(\d{2}:\d{2})/)[1] : undefined,
             matchStatus: match.matchStatus
 
         }
@@ -92,112 +94,152 @@ export default function EditMatchDialog({ onSubmit, match, users }:
             <DialogTrigger asChild>
                 <Button variant={"ghost"} className="text-primary-foreground">Edit <Edit className="w-4 h-4 ml-1" /></Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="">
                 <DialogHeader>
                     <DialogTitle>Edit Match</DialogTitle>
                 </DialogHeader>
                 <form id="editMatchDialog" onSubmit={handleSubmit((formdata) => {
                     onSubmit(formdata)
                     setOpen(false)
-                })}>
+                }, (e => console.log(e)))}>
 
 
 
 
                     {/* Begin form content */}
-                    <div className="space-y-3">
-                        <div>
-                            <Label htmlFor="team1Id">Player 1</Label>
-                            <Controller
-                            control={control}
-                            name="team1Id"
-                            render={({ field }) => (
-                                <Combobox
-                                    options={PlayerOptions}
-                                    placeholder="Select player..."
-                                    className="w-full"
-                                    value={field.value}
-                                    onChange={field.onChange}
 
-                                />)}
-                        />
+                    <div className="flex flex-row w-full gap-2">
+
+
+                        <div className="flex flex-col space-y-3 w-1/2">
+
+                            <div>
+                                <Label htmlFor="team1Id">Player 1</Label>
+                                <Controller
+                                    control={control}
+                                    name="team1Id"
+                                    render={({ field }) => (
+                                        <Combobox
+                                            options={PlayerOptions}
+                                            placeholder="Select player..."
+                                            className="w-full"
+                                            value={field.value}
+                                            onChange={field.onChange}
+
+                                        />)}
+                                />
+                            </div>
+
+                            <div>
+                                <Label htmlFor="team1Score">Player 1 Score</Label>
+                                <Input
+                                    id="team1Score"
+                                    {...register('team1Score')}
+                                    type="number"
+                                />
+                            </div>
+
+                            <div>
+                                <Label htmlFor="referee">Referee</Label>
+                                <Input
+                                    id="referee"
+                                    {...register('referee')}
+                                />
+                            </div>
+
+
+
+                            <div>
+                                <Label htmlFor="matchDateTime">Match Date</Label>
+                                <Controller
+                                    control={control}
+                                    name="matchDateTime"
+                                    render={({ field }) => (
+                                        <DatePicker value={field.value} onChange={field.onChange} className="w-full" />
+                                    )}
+                                />
+                            </div>
+
+
+
+
+
+
                         </div>
 
-                        <div>
-                            <Label htmlFor="team2Id">Player 2</Label>
-                            <Controller
-                            control={control}
-                            name="team2Id"
-                            render={({ field }) => (
-                                <Combobox
-                                    options={PlayerOptions}
-                                    placeholder="Select player..."
-                                    className="w-full"
-                                    value={field.value}
-                                    onChange={field.onChange}
+                        <div className="flex flex-col space-y-3 w-1/2">
 
-                                />)}
-                        />
+                            <div>
+                                <Label htmlFor="team2Id">Player 2</Label>
+                                <Controller
+                                    control={control}
+                                    name="team2Id"
+                                    render={({ field }) => (
+                                        <Combobox
+                                            options={PlayerOptions}
+                                            placeholder="Select player..."
+                                            className="w-full"
+                                            value={field.value}
+                                            onChange={field.onChange}
+
+                                        />)}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="team2Score">Player 2 Score</Label>
+                                <Input
+                                    id="team2Score"
+                                    {...register('team2Score')}
+                                    type="number"
+                                />
+                            </div>
+
+
+                            <div>
+                                <Label htmlFor="matchStatus">Match Status</Label>
+
+                                <Controller
+                                    control={control}
+                                    name="matchStatus"
+                                    render={({ field }) => (
+                                        <Combobox
+                                            options={MatchStatusOptions}
+                                            placeholder="Select status..."
+                                            className="w-full"
+                                            value={field.value}
+                                            onChange={field.onChange}
+
+                                        />)}
+                                />
+                            </div>
+
+
+                            <div>
+                                <Label htmlFor="matchTime">Match Time</Label>
+
+                                <Controller
+                                    control={control}
+                                    name="matchTime"
+                                    render={({ field }) => (
+                                        <Input
+                                            id="matchTime"
+                                            type="time" 
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            min={"00:00"}
+                                            max={"23:59"}
+                                            
+                                            />
+                                    )}
+                                />
+                            </div>
+
+
+
+
+
+
                         </div>
-
-                        <div>
-                            <Label htmlFor="referee">Referee</Label>
-                            <Input
-                                id="referee"
-                                {...register('referee')}
-                            />
-                        </div>
-
-                        <div>
-                            <Label htmlFor="team1Score">Player 1 Score</Label>
-                            <Input
-                                id="team1Score"
-                                {...register('team1Score')}
-                                type="number"
-                            />
-                        </div>
-
-                        <div>
-                            <Label htmlFor="team2Score">Player 2 Score</Label>
-                            <Input
-                                id="team2Score"
-                                {...register('team2Score')}
-                                type="number"
-                            />
-                        </div>
-
-                        <div>
-                            <Label htmlFor="matchDateTime">Match Date</Label>
-                            <Controller
-                                control={control}
-                                name="matchDateTime"
-                                render={({ field }) => (
-                                    <DatePicker value={field.value} onChange={field.onChange} className="w-full" />
-                                )}
-                            />
-                        </div>
-
-
-                        <div>
-                        <Label htmlFor="matchStatus">Match Status</Label>
-
-                        <Controller
-                            control={control}
-                            name="matchStatus"
-                            render={({ field }) => (
-                                <Combobox
-                                    options={MatchStatusOptions}
-                                    placeholder="Select status..."
-                                    className="w-full"
-                                    value={field.value}
-                                    onChange={field.onChange}
-
-                                />)}
-                        />
-                        </div>
-
-
-
                     </div>
                     {/* End form content */}
 

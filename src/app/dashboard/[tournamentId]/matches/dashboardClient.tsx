@@ -24,6 +24,12 @@ export default function DashboardClient({ tournamentId, defaultMatches, stages, 
                         {matches.filter(m => m.stageNo == stage.stageNo).sort((a, b) => a.matchId - b.matchId).map(match =>
                             <MatchListItem key={match.matchId} match={match} users={users} sidePanel={
                             <EditMatchDialog users={users} match={match} onSubmit={async (data) => {
+                                if (data.matchDateTime) {
+                                    const newDate = new Date(data.matchDateTime.toISOString().split("T")[0] + "T" + data.matchTime + ":00.000Z")
+                                    data.matchDateTime = newDate;
+                                    data.matchTime = undefined
+                                }
+
                                 const res = await updateMatch(match, data)
                                 if (res.error || !res.body) {
                                     return

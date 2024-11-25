@@ -8,8 +8,8 @@ import EditMatchDialog from "./editMatchDialog";
 import updateMatch from "@/app/api/queries/updateMatch";
 import { useState } from "react";
 
-export default function DashboardClient({ tournamentId, defaultMatches, stages, users }: 
-    { tournamentId: string, defaultMatches: Match[], stages: Stage[], users: UserCompact[] }) {
+export default function DashboardClient({ tournamentId, defaultMatches, stages, users, referees }: 
+    { tournamentId: string, defaultMatches: Match[], stages: Stage[], users: UserCompact[], referees: UserCompact[] }) {
 
         const [matches, setMatches] = useState(defaultMatches || [])
 
@@ -22,8 +22,8 @@ export default function DashboardClient({ tournamentId, defaultMatches, stages, 
                         <div className="flex flex-col gap-4 p-2">
 
                         {matches.filter(m => m.stageNo == stage.stageNo).sort((a, b) => a.matchId - b.matchId).map(match =>
-                            <MatchListItem key={match.matchId} match={match} users={users} sidePanel={
-                            <EditMatchDialog users={users} match={match} onSubmit={async (data) => {
+                            <MatchListItem key={match.matchId} match={match} users={users} referees={referees} sidePanel={
+                            <EditMatchDialog users={users} match={match} referees={referees} onSubmit={async (data) => {
                                 if (data.matchDateTime) {
                                     const newDate = new Date(data.matchDateTime.toISOString().split("T")[0] + "T" + data.matchTime + ":00.000Z")
                                     data.matchDateTime = newDate;

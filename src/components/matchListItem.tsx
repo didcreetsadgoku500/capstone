@@ -5,9 +5,11 @@ import { UserCompact } from "osu-web.js"
 import { ReactNode } from "react";
 
 
-export default function MatchListItem({ match, users, sidePanel }: { match: Match, users: UserCompact[], sidePanel?: ReactNode }) {
+export default function MatchListItem({ match, users, referees, sidePanel }: { match: Match, users: UserCompact[], referees: UserCompact[], sidePanel?: ReactNode }) {
     const team1 = users.find(u => u.id == Number(match.team1Id));
     const team2 = users.find(u => u.id == Number(match.team2Id));
+    console.log(referees)
+    const ref = referees.find(u => u.id == Number(match.referee));
 
 
     return <div className="group rounded-md bg-primary/80 transition-all flex
@@ -63,7 +65,7 @@ export default function MatchListItem({ match, users, sidePanel }: { match: Matc
             <div className="px-2 pb-2 text-primary/50 justify-between flex flex-row">
                 <div>
 
-                {statusText(match.matchStatus)} • {match.referee ? `Assigned to ${match.referee}` : "Not assigned referee"}
+                {statusText(match.matchStatus)} • {ref ? `Assigned to ${ref.username}` : "Not assigned referee"}
                 </div>
                 <div>
                     {match.matchDateTime ? match.matchDateTime.toUTCString() : "Unscheduled"}

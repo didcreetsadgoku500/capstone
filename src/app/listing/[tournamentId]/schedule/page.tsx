@@ -16,14 +16,14 @@ export default async function Page({ params }: { params: { tournamentId: string 
     }
 
 
-    const matches = await prisma.match.findMany({
+    const matchesPromise =  prisma.match.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId),
 
         }
     })
 
-    const stages = await prisma.stage.findMany({
+    const stagesPromise =  prisma.stage.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId),
             public: true
@@ -33,23 +33,39 @@ export default async function Page({ params }: { params: { tournamentId: string 
         }
     })
 
-    if (stages.length == 0) {
-        return <p className="text-primary/75 text-sm">The schedule isn't released yet! Check back later.</p>
-    }
+ 
 
-    const regs = await prisma.registrations.findMany({
+    const regsPromise = prisma.registrations.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId)
         }
     })
 
-    const res = await joinUserDetails(regs, r => Number(r.userId))
+    const refsPromise = prisma.permission.findMany({
+        where: {
+            scope: `tournament-${params.tournamentId}`,
+            role: "referee"
+        }
+    })
 
-    if (!res) {
-        return "Could not fetch registrants. Try logging out and logging back in."
+    const regs = await regsPromise
+    const matches = await matchesPromise
+    const stages = await stagesPromise
+    const refs = await refsPromise
+
+    if (stages.length == 0) {
+        return <p className="text-primary/75 text-sm">The schedule isn't released yet! Check back later.</p>
+    }
+    const res = await joinUserDetails(regs, r => Number(r.userId))
+    const res2 = await joinUserDetails(refs, r => Number(r.userId))
+
+
+    if (!res || !res2) {
+        return <div>Could not fetch user details. Try relogging.</div>
     }
 
     const regsDetails = res.map(r => r.userDetails)
+    const refsDetails = res2.map(r => r.userDetails)
 
 
     return <div>
@@ -61,7 +77,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
                         <div className="flex flex-col gap-4 p-2 items-center w-full">
 
                         {matches.filter(m => m.stageNo == stage.stageNo).map(match =>
-                            <MatchListItem key={match.matchId} match={match} users={regsDetails}/>
+                            <MatchListItem key={match.matchId} match={match} users={regsDetails} referees={refsDetails}/>
                             
                         )}
                         </div>

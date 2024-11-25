@@ -17,32 +17,52 @@ export default async function Page({ params }: { params: { tournamentId: string 
     }
 
 
-    const matches = await prisma.match.findMany({
+    const matchesPromise =  prisma.match.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId),
 
         }
     })
 
-    const stages = await prisma.stage.findMany({
+    const stagesPromise =  prisma.stage.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId),
         }
     })
 
-    const regs = await prisma.registrations.findMany({
+    const regsPromise = prisma.registrations.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId)
         }
     })
 
-    const res = await joinUserDetails(regs, r => Number(r.userId))
+    const refsPromise = prisma.permission.findMany({
+        where: {
+            scope: `tournament-${params.tournamentId}`,
+            role: "referee"
+        }
+    })
 
-    if (!res) {
+    const regs = await regsPromise
+    const matches = await matchesPromise
+    const stages = await stagesPromise
+    const refs = await refsPromise
+
+    const res = await joinUserDetails(regs, r => Number(r.userId))
+    const res2 = await joinUserDetails(refs, r => Number(r.userId))
+
+
+    if (!res || !res2) {
         return <div>Could not fetch user details. Try relogging.</div>
     }
 
     const regsDetails = res.map(r => r.userDetails)
+    const refsDetails = res2.map(r => r.userDetails)
 
-    return <DashboardClient tournamentId={params.tournamentId} defaultMatches={matches} stages={stages} users={regsDetails}/>
+    return <DashboardClient 
+        tournamentId={params.tournamentId} 
+        defaultMatches={matches} 
+        stages={stages} 
+        users={regsDetails} 
+        referees={refsDetails}/>
 }

@@ -62,8 +62,8 @@ const schema = z.object({
 export type MatchFormData = z.infer<typeof schema>
 
 
-export default function EditMatchDialog({ onSubmit, match, users }:
-    { onSubmit: (formdata: MatchFormData) => void, match: Match, users: UserCompact[] }) {
+export default function EditMatchDialog({ onSubmit, match, users, referees }:
+    { onSubmit: (formdata: MatchFormData) => void, match: Match, users: UserCompact[], referees: UserCompact[] }) {
     const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid }, control } = useForm<MatchFormData>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -84,6 +84,11 @@ export default function EditMatchDialog({ onSubmit, match, users }:
     const [open, setOpen] = useState(false);
 
     const PlayerOptions = users.map(u => ({
+        value: String(u.id),
+        label: u.username
+    }))
+
+    const RefOptions = referees.map(u => ({
         value: String(u.id),
         label: u.username
     }))
@@ -141,9 +146,18 @@ export default function EditMatchDialog({ onSubmit, match, users }:
 
                             <div>
                                 <Label htmlFor="referee">Referee</Label>
-                                <Input
-                                    id="referee"
-                                    {...register('referee')}
+                                <Controller
+                                    control={control}
+                                    name="referee"
+                                    render={({ field }) => (
+                                        <Combobox
+                                            options={RefOptions}
+                                            placeholder="Select referee..."
+                                            className="w-full"
+                                            value={field.value}
+                                            onChange={field.onChange}
+
+                                        />)}
                                 />
                             </div>
 

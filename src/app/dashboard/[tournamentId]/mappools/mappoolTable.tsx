@@ -6,11 +6,19 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Mappool } from "@prisma/client";
+import { Beatmap, Beatmapset, Fails } from "osu-web.js";
 import { useState } from "react";
 
 type TouchedFieldsType = { [key: string]: { "mod"?: string, "mapId"?: string } }
 
-export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (a: TouchedFieldsType) => void}) {
+export function MappoolTable({ maps, mapDetails, onUpdate }: { maps: Mappool[], mapDetails: (Beatmap & {
+    failtimes: Fails;
+    max_combo: number;
+    checksum: string | null;
+    beatmapset: Beatmapset & {
+        ratings: number[];
+    };
+})[], onUpdate?: (a: TouchedFieldsType) => void}) {
     const [tableItems, setTableItems] = useState(maps)
 
     const [touchedFields, setTouchedFields] = useState<TouchedFieldsType>({})
@@ -19,18 +27,21 @@ export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (
     <Table>
         <TableHeader>
             <TableRow>
-                <TableHead className="max-w-8">
+                <TableHead className="w-16">
                     Mod
                 </TableHead>
-                <TableHead>
+                <TableHead className="w-32">
                     Map Id
+                </TableHead>
+                <TableHead>
+                    Artist - Title [Difficulty]
                 </TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
             {tableItems.map(m => <TableRow key={m.mappoolItemId}>
-                <TableCell className="max-w-8">
-                    <Input className="max-w-16" defaultValue={m.mods ? m.mods + m.modIndex : ""} onChange={(v) => {
+                <TableCell className="w-fit">
+                    <Input className="w-16" defaultValue={m.mods ? m.mods + m.modIndex : ""} onChange={(v) => {
                         const temp = touchedFields
                         if (!temp[m.mappoolItemId.toString()]) temp[m.mappoolItemId.toString()] = {}
                         temp[`${m.mappoolItemId}`]["mod"] = v.target.value
@@ -44,6 +55,9 @@ export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (
                         temp[`${m.mappoolItemId}`]["mapId"] = v.target.value
                         setTouchedFields(temp);
                     }} />
+                </TableCell>
+                <TableCell>
+                    {mapToString(mapDetails.find(x => x.id == m.mapId)) || "Beatmap not found"}
                 </TableCell>
 
             </TableRow>)}
@@ -59,3 +73,18 @@ export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (
     </div>
 }
 
+function mapToString(map: (Beatmap & {
+    failtimes: Fails;
+    max_combo: number;
+    checksum: string | null;
+    beatmapset: Beatmapset & {
+        ratings: number[];
+    };
+}) | null | undefined) {
+
+    if (!map) {
+        return null
+    }
+    return `${map.beatmapset.artist_unicode} - ${map.beatmapset.title} [${map.version}]`
+
+}

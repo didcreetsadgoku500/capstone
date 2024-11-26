@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth"
 import { Beatmap, Beatmapset, Client, Fails } from "osu-web.js"
 
-export async function joinUserDetails<T>(inputList: T[], extractPredicate: (i: T) => number) {
+export async function joinBeatmapDetails<T>(inputList: T[], extractPredicate: (i: T) => number) {
     const session = await auth()
 
     if (!session || !session.access_token) {

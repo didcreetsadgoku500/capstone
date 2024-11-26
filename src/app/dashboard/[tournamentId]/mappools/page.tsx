@@ -6,6 +6,8 @@ import { MappoolTable } from "./mappoolTable";
 import { onlyUnique } from "@/lib/helper";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {DashboardClient} from "./dashboardClient";
+import { joinBeatmapDetails } from "@/app/api/joinBeatmapData";
+import { Mappool } from "@prisma/client";
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
     const session = await auth();
@@ -37,9 +39,16 @@ export default async function Page({ params }: { params: { tournamentId: string 
         return <p>Could not load maps</p>
     }
 
+    const mapIds = stages.flatMap(s => s.mappool.map(m => m.mapId)).filter((x: number | null): x is number => x !== null);
+    const mapDetails = await joinBeatmapDetails(mapIds, m => m || 2684122)
+
+    if (!mapDetails) {
+        return <p>Could not load maps</p>
+    }
+
     return (
         <>
-            <DashboardClient stages={stages} />
+            <DashboardClient stages={stages} initialMaps={mapDetails.map(m => m.mapDetails)}/>
         </>
     )
 }

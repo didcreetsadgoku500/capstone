@@ -61,12 +61,13 @@ model Match {
 }
 
 model Mappool {
+  mappoolItemId BigInt @id @default(autoincrement()) 
   tournamentId BigInt
   stageNo Int
-  mapId Int
+  mapId Int?
+  mods String
+  modIndex Int
   stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade, onUpdate: Cascade)
-
-  @@id([tournamentId, stageNo, mapId])
 
 }
 

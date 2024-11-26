@@ -22,6 +22,9 @@ export async function Sidebar({params}: {params: Promise<{tournamentId: string}>
             <SidebarItem route={`${baseUrl}/matches`}>
                 Matches
             </SidebarItem>
+            <SidebarItem route={`${baseUrl}/mappools`}>
+                Mappools
+            </SidebarItem>
             <SidebarItem route={`/listing/${tournamentId}`}>
                 <span className="flex flex-row items-center">
                     Listing <ExternalLink className="w-4 h-4 ml-1"/>

@@ -17,7 +17,7 @@ export async function DetailsNav({params}: {params: {tournamentId: string}}) {
             <DetailsNavItem route={`${baseUrl}/schedule`}>
                 Schedule
             </DetailsNavItem>
-            <DetailsNavItem route={`${baseUrl}/`}>
+            <DetailsNavItem route={`${baseUrl}/mappools`}>
                 Mappools
             </DetailsNavItem>
         </div>

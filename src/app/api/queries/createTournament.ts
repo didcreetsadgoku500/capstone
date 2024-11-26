@@ -17,7 +17,6 @@ export default async function createTournament(tourName: string) {
             tourName,
             tourDesc: "",
             gamemode: Gamemode.STANDARD,
-            currentStage: 0
         }
     })
 

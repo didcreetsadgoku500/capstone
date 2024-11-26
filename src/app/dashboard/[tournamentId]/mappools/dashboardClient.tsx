@@ -4,9 +4,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { MappoolTable } from "./mappoolTable"
 import { useState } from "react"
 import { updateMappool } from "@/app/api/queries/updateMappool"
+import { Mappool, Stage } from "@prisma/client"
 
+type StageWithPools = Stage & {mappool: Mappool[]}
 
-export function DashboardClient({ stages }) {
+export function DashboardClient({ stages }: {stages : StageWithPools[]}) {
     const [stagesClient, setStages] = useState(stages)
 
     return <Accordion type="single">
@@ -16,7 +18,10 @@ export function DashboardClient({ stages }) {
                 <AccordionContent>
                     <MappoolTable maps={s.mappool} onUpdate={
                         async (touchedFields) => {
-                            const newStage = updateMappool(touchedFields)
+                            const res = await updateMappool(s.tournamentId, s.stageNo, touchedFields)
+                            if (res.body) {
+                                setStages(stagesClient.map(a => a.stageNo != s.stageNo ? a : res.body || a))
+                            }
                         }
                     }/>
                 </AccordionContent>

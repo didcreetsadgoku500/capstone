@@ -4,6 +4,7 @@ import { updateMappool } from "@/app/api/queries/updateMappool";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { Mappool } from "@prisma/client";
 import { useState } from "react";
 
@@ -37,7 +38,7 @@ export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (
                     }} />
                 </TableCell>
                 <TableCell>
-                    <Input className="max-w-36" defaultValue={m.mapId || undefined} onChange={(v) => {
+                    <Input className="max-w-36" type={"number"} defaultValue={m.mapId || undefined} onChange={(v) => {
                         const temp = touchedFields
                         if (!temp[m.mappoolItemId.toString()]) temp[m.mappoolItemId.toString()] = {}
                         temp[`${m.mappoolItemId}`]["mapId"] = v.target.value
@@ -48,9 +49,13 @@ export function MappoolTable({ maps, onUpdate }: { maps: Mappool[], onUpdate?: (
             </TableRow>)}
         </TableBody>
     </Table>
+    {tableItems.length == 0 && <div className="text-sm text-primary/50 p-4">Mappool empty. Add some maps to get started!</div>}
+    <div>
+
     <Button className="mr-4" onClick={() => {onUpdate && onUpdate(touchedFields)}}>
             Update Mappool</Button> 
     <Button onClick={() => setTableItems([...tableItems, {mappoolItemId: tableItems.length * -1 }])}>Add Map</Button>
+    </div>
     </div>
 }
 

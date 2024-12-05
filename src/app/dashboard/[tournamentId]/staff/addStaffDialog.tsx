@@ -1,6 +1,7 @@
 "use client"
 
 import { addStaff } from "@/app/api/queries/addStaff"
+import { Combobox } from "@/components/combobox"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -14,9 +15,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 import { z } from "zod"
+
+const RoleOptions = [
+    {
+        value: "cohost",
+        label: "Cohost"
+    },
+    {
+        value: "referee",
+        label: "Referee"
+    },
+    {
+        value: "pooler",
+        label: "Pooler"
+    },    
+]
 
 
 const schema = z.object({
@@ -28,7 +44,7 @@ type FormData = z.infer<typeof schema>
 
 
 export default function AddStaffDialog({tournamentId, TriggerComponent, onStaffAdd}: {tournamentId: string, TriggerComponent: React.ReactNode, onStaffAdd: (formdata: FormData) => {} }) {
-    const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid} } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors, isSubmitting, isSubmitted, isValid}, control } = useForm<FormData>({
         resolver: zodResolver(schema)})
     
         const [open, setOpen] = useState(false);
@@ -63,11 +79,19 @@ export default function AddStaffDialog({tournamentId, TriggerComponent, onStaffA
                         {errors.userId && <p className="text-sm text-red-500">{errors.userId.message}</p>}
                         
                         <Label htmlFor="role">Role</Label>
-                        <Input
-                        id="role"
-                        {...register('role')}
-                        autoComplete="off"
-                        />
+                        <Controller
+                                    control={control}
+                                    name="role"
+                                    render={({ field }) => (
+                                        <Combobox
+                                            options={RoleOptions}
+                                            placeholder="Select role..."
+                                            className="w-full"
+                                            value={field.value}
+                                            onChange={field.onChange}
+
+                                        />)}
+                                />
                         {errors.role && <p className="text-sm text-red-500">{errors.role.message}</p>}
                     </div>
         </form>

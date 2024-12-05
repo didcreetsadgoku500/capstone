@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { tournamentId: string 
     if (!session || !session.user.id) {
         return <Unauthenticated />
     }
-    const permission = await verifyRole(session.user.id, `tournament-${params.tournamentId}`, ["host"])
+    const permission = await verifyRole(session.user.id, `tournament-${params.tournamentId}`, ["host", "cohost"])
     if (!permission) {
         return <Unauthorized tournamentId={params.tournamentId}/>
     }

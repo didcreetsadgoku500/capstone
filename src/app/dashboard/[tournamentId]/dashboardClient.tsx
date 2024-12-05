@@ -11,6 +11,7 @@ import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import updateTournament from "@/app/api/queries/updateTournament"
 import GamemodeSelect from "@/components/gamemodeSelect"
+import DeleteTournamentDialog from "./deleteTournamentDialog"
 
 const schema = z.object({
   tourName: z.string().min(1, "Tournament name is required").max(50, "Tournament name must be 50 characters or less"),
@@ -138,7 +139,13 @@ export default function DashboardClient({ tournamentDetails }: { tournamentDetai
         />
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-4">
+        <DeleteTournamentDialog TriggerComponent={
+          <Button className="transition-all" type="button" variant={"destructive"}>Delete tournament</Button>
+
+        } 
+        tournamentId={tournamentDetails?.tournamentId || BigInt(0)}/>
+
         <Button className="transition-all" type="submit" disabled={Object.keys(dirtyFields).length == 0 || isSubmitting}>Save changes</Button>
       </div>
     </form>
@@ -152,5 +159,4 @@ async function onSubmitForm(tournamentID: bigint | undefined, formdata: FormData
         return;
     }
 
-    // TODO: Handle creating a tournament
 }

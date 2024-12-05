@@ -31,7 +31,7 @@ model Tournament {
 
 model Stage {
   tournamentId BigInt 
-  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId])
+  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
   stageNo Int @default(sequence())
   stageName String
   isBracket Boolean
@@ -75,7 +75,7 @@ model Registrations {
   regId BigInt @id @default(autoincrement())
   tournamentId BigInt
   userId String
-  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId])
+  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
 
 
 }

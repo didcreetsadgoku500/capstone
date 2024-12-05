@@ -22,7 +22,9 @@ export default async function updateTournament(tournamentId: bigint, data: Parti
         },
         data
     })
+    
     revalidatePath(`/dashboard/${tournamentId}/`, 'page')
+    revalidatePath(`/listing/`, 'page')
 
 
     return;

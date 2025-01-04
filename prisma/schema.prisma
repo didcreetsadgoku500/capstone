@@ -15,69 +15,63 @@ model Permission {
 }
 
 model Tournament {
-  tournamentId   BigInt @id @default(autoincrement())
-  tourName String
-  tourDesc String
-  bannerUrl String @default("/strafeSmoke.jpg")
-  gamemode Gamemode
-  stages Stage[]
+  tournamentId  BigInt          @id @default(autoincrement())
+  tourName      String
+  tourDesc      String
+  gamemode      Gamemode
+  bannerUrl     String          @default("/strafeSmoke.jpg")
+  maxRank       Int?
+  minRank       Int?
+  usesBWS       Boolean?
+  public        Boolean         @default(false)
   registrations Registrations[]
-  minRank Int?
-  maxRank Int?
-  usesBWS Boolean?
-  public Boolean @default(false)
-
+  stages        Stage[]
 }
 
 model Stage {
-  tournamentId BigInt 
-  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
-  stageNo Int @default(sequence())
-  stageName String
-  isBracket Boolean
-  matches Match[]
-  mappool Mappool[]
-  public Boolean @default(false)
+  tournamentId BigInt
+  stageNo      Int        @default(sequence(maxValue: 2147483647))
+  stageName    String
+  isBracket    Boolean
+  public       Boolean    @default(false)
+  mappool      Mappool[]
+  matches      Match[]
+  tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
 
   @@id([tournamentId, stageNo])
 }
 
 model Match {
-  tournamentId BigInt
-  stageNo Int
-  matchId Int @default(sequence())
-  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade, onUpdate: Cascade)
-
-  team1Score Int @default(0)
-  team2Score Int @default(0)
-  team1Id String?
-  team2Id String?
-
-  matchStatus MatchStatus
+  tournamentId  BigInt
+  stageNo       Int
+  matchId       Int         @default(sequence())
+  team1Score    Int         @default(0)
+  team2Score    Int         @default(0)
+  team1Id       String?
+  team2Id       String?
+  matchStatus   MatchStatus
   matchDateTime DateTime?
-  referee String?
+  referee       String?
+  stage         Stage       @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade)
 
   @@id([tournamentId, matchId])
 }
 
 model Mappool {
-  mappoolItemId BigInt @id @default(autoincrement()) 
-  tournamentId BigInt
-  stageNo Int
-  mapId Int?
-  mods String
-  modIndex Int
-  stage Stage @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade, onUpdate: Cascade)
-
+  mappoolItemId BigInt @id @default(autoincrement())
+  tournamentId  BigInt
+  stageNo       Int
+  mapId         Int?
+  mods          String
+  modIndex      Int
+  stage         Stage  @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade)
 }
 
 model Registrations {
-  regId BigInt @id @default(autoincrement())
+  regId        BigInt     @id @default(autoincrement())
   tournamentId BigInt
-  userId String
-  tournament Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
-
-
+  userId       String
+  tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
 }
 
 enum Gamemode {

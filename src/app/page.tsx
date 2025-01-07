@@ -24,12 +24,9 @@ export default async function Home() {
                 with ease.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" asChild>
+                <Button size="lg" disabled>
                   
-                  <Link href={"/listing"}>
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  Coming Soon
                 </Button>
                 <Button size="lg" variant="outline" asChild>
                   <Link href={"https://github.com/didcreetsadgoku500/capstone"}>
@@ -80,14 +77,10 @@ export default async function Home() {
                 Join a growing community of tournament organizers and players. <br /> Make your next osu! tournament a success with
                 tournament.sh
               </p>
-                <Button size="lg" asChild>
+              <Button size="lg" disabled>
                   
-                  <Link href={"/listing"}>
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                  </Button>
-            </div>
+                  Coming Soon
+                </Button>            </div>
           </div>
         </section>
       </main>

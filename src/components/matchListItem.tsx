@@ -1,5 +1,5 @@
-import { statusText } from "@/lib/helper";
-import { cn } from "@/lib/utils";
+import { statusText } from "@/utils/helper";
+import { cn } from "@/utils/shadcn";
 import { Match, MatchStatus } from "@prisma/client"
 import { UserRound } from "lucide-react";
 import { UserCompact } from "osu-web.js"

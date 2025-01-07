@@ -1,9 +1,9 @@
 "use server"
 
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db"
-import { onlyUnique } from "@/lib/helper";
-import { verifyRole } from "@/lib/permissions";
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db"
+import { onlyUnique } from "@/utils/helper";
+import { verifyRole } from "@/utils/permissions";
 import { revalidatePath } from "next/cache";
 import { Client } from "osu-web.js";
 

@@ -1,6 +1,6 @@
 "use server"
 
-import { auth } from "@/lib/auth"
+import { auth } from "@/utils/auth"
 import { Beatmap, Beatmapset, Client, Fails } from "osu-web.js"
 
 export async function joinBeatmapDetails<T>(inputList: T[], extractPredicate: (i: T) => number) {

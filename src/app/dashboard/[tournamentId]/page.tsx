@@ -1,7 +1,7 @@
 import { getTournament } from "@/app/api/queries/getTournament";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
-import { verifyRole } from "@/lib/permissions";
+import { auth } from "@/utils/auth";
+import { verifyRole } from "@/utils/permissions";
 import DashboardClient from "./dashboardClient";
 import { Unauthenticated, Unauthorized } from "./errorViews";
 

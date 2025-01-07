@@ -1,6 +1,6 @@
 "use server"
 
-import { auth } from "@/lib/auth"
+import { auth } from "@/utils/auth"
 import { Client, Country, Cover, StatisticsRulesets, UserCompact, UserGroup } from "osu-web.js"
 
 export async function joinUserDetails<T>(inputList: T[], extractPredicate: (i: T) => number) {

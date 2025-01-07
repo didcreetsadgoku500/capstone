@@ -4,7 +4,7 @@ import { updateMappool } from "@/app/api/queries/updateMappool";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/shadcn";
 import { Mappool } from "@prisma/client";
 import { Beatmap, Beatmapset, Fails } from "osu-web.js";
 import { useState } from "react";

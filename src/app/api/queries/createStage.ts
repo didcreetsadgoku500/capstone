@@ -1,9 +1,9 @@
 "use server"
 
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db";
-import { verifyRole } from "@/lib/permissions";
-import { ServerActionResponse } from "@/lib/serverActionResponse";
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db";
+import { verifyRole } from "@/utils/permissions";
+import { ServerActionResponse } from "@/utils/serverActionResponse";
 import { Match, MatchStatus, Stage } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 

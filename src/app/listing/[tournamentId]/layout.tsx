@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FallbackSkeleton } from "@/components/textSkeleton";
 import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 import { DetailsHeader } from "./header";
 
 export default function DetailsLayout({ children, params }: { children: React.ReactNode, params: { tournamentId: string }}) {

@@ -1,10 +1,10 @@
 import { OtherError, Unauthenticated, Unauthorized } from "../errorViews";
-import { verifyRole } from "@/lib/permissions";
-import { auth } from "@/lib/auth";
+import { verifyRole } from "@/utils/permissions";
+import { auth } from "@/utils/auth";
 import { getTournamentStaff } from "@/app/api/queries/getTournamentStaff";
 import DashboardClient from "./dashboardClient";
 import { Client, isOsuJSError } from "osu-web.js";
-import { onlyUnique } from "@/lib/helper";
+import { onlyUnique } from "@/utils/helper";
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
     const session = await auth();

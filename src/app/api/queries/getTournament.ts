@@ -1,4 +1,4 @@
-import prisma from "@/lib/db"
+import prisma from "@/utils/db"
 import { Tournament } from "@prisma/client"
 
 export async function getTournament(tID: bigint) {

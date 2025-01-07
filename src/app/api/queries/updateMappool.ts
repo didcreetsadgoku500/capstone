@@ -1,9 +1,9 @@
 "use server"
 
-import { auth } from "@/lib/auth"
-import prisma from "@/lib/db"
-import { verifyRole } from "@/lib/permissions"
-import { ServerActionResponse } from "@/lib/serverActionResponse"
+import { auth } from "@/utils/auth"
+import prisma from "@/utils/db"
+import { verifyRole } from "@/utils/permissions"
+import { ServerActionResponse } from "@/utils/serverActionResponse"
 import { Mappool, Stage } from "@prisma/client"
 
 export async function updateMappool(tournamentId: bigint, stageNo: number, touchedFields: { [key: string]: { "mod"?: string, "mapId"?: string } }): Promise<ServerActionResponse<Stage & {mappool: Mappool[]}>> {

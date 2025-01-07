@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 import { logoStyles } from "./textStyles";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";

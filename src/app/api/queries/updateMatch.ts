@@ -1,9 +1,9 @@
 "use server"
 
 import { MatchFormData } from "@/app/dashboard/[tournamentId]/matches/editMatchDialog";
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db";
-import { verifyRole } from "@/lib/permissions";
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db";
+import { verifyRole } from "@/utils/permissions";
 import { Match } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 

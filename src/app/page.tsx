@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Badge, Calendar, Gamepad, Github, Trophy, Users } from "lucide-react";
 import Link from "next/link";

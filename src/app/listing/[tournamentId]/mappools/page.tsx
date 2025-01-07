@@ -5,8 +5,8 @@ import MatchListItem from "@/components/matchListItem";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db";
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db";
 import { Accordion } from "@radix-ui/react-accordion";
 import { Beatmap, Beatmapset, Fails } from "osu-web.js";
 

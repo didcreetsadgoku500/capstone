@@ -1,6 +1,6 @@
 import { OtherError, Unauthenticated, Unauthorized } from "../errorViews";
-import { verifyRole } from "@/lib/permissions";
-import { auth } from "@/lib/auth";
+import { verifyRole } from "@/utils/permissions";
+import { auth } from "@/utils/auth";
 import DashboardClient from "./dashboardClient";
 import { getTournamentRegistrants } from "@/app/api/queries/getTournamentRegistrants";
 import { joinUserDetails } from "@/app/api/joinUserData";

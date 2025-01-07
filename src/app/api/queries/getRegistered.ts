@@ -1,6 +1,6 @@
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db"
-import { ServerActionResponse } from "@/lib/serverActionResponse";
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db"
+import { ServerActionResponse } from "@/utils/serverActionResponse";
 import { Registrations, Tournament } from "@prisma/client"
 
 export async function getRegistered(): Promise<ServerActionResponse<Registrations[]>> {

@@ -1,7 +1,7 @@
 "use server"
 
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/db"
+import { auth } from "@/utils/auth";
+import prisma from "@/utils/db"
 import { Gamemode } from "@prisma/client";
 import { redirect } from "next/navigation";
 

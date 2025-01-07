@@ -1,6 +1,6 @@
 // "use client"
 // import { signIn, signOut  } from "next-auth/react"
-import { signIn, signOut } from "@/lib/auth"
+import { signIn, signOut } from "@/utils/auth"
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu"
 import { Session } from "next-auth"
 import { LogOutIcon, LogInIcon } from "lucide-react"

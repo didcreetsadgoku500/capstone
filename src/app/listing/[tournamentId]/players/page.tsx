@@ -2,7 +2,7 @@ import { joinUserDetails } from "@/app/api/joinUserData";
 import { getTournamentRegistrants } from "@/app/api/queries/getTournamentRegistrants";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 
 export default async function Page({ params }: { params: { tournamentId: string } }) {
   const session = await auth();

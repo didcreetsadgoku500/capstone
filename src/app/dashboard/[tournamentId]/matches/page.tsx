@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/utils/auth";
 import { Unauthenticated, Unauthorized } from "../errorViews";
-import { verifyRole } from "@/lib/permissions";
-import prisma from "@/lib/db";
+import { verifyRole } from "@/utils/permissions";
+import prisma from "@/utils/db";
 import DashboardClient from "./dashboardClient";
 import { joinUserDetails } from "@/app/api/joinUserData";
 

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { statusText } from "@/lib/helper"
+import { statusText } from "@/utils/helper"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Match, MatchStatus } from "@prisma/client"
 import { Edit } from "lucide-react"

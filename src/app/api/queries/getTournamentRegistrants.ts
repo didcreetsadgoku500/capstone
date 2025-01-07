@@ -1,7 +1,7 @@
 "use server"
 
-import prisma from "@/lib/db"
-import { ServerActionResponse } from "@/lib/serverActionResponse";
+import prisma from "@/utils/db"
+import { ServerActionResponse } from "@/utils/serverActionResponse";
 import { Registrations } from "@prisma/client";
 
 export async function getTournamentRegistrants(tID: bigint): Promise<ServerActionResponse<Registrations[]>> {

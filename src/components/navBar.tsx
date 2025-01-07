@@ -21,7 +21,7 @@ export async function NavBar() {
         <div className="flex flex-col max-w-screen-xl mx-auto">
 
             <div className="flex flex-row justify-between items-end pt-5">
-                <h1 className={logoStyles}><Link href="/listing">tournament.sh</Link></h1>
+                <h1 className={logoStyles}>tournament.sh</h1>
 
 
                 

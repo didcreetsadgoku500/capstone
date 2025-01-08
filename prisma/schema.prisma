@@ -7,11 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Permission {
+model Staff {
   id     BigInt @id @default(autoincrement())
-  userId String
-  scope  String
+  userId Int
+  tournamentId  BigInt
   role   String
+  tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
+
 }
 
 model Tournament {
@@ -24,8 +26,9 @@ model Tournament {
   minRank       Int?
   usesBWS       Boolean?
   public        Boolean         @default(false)
-  registrations Registrations[]
+  registrations Registration[]
   stages        Stage[]
+  staff         Staff[]
 }
 
 model Stage {
@@ -67,10 +70,10 @@ model Mappool {
   stage         Stage  @relation(fields: [tournamentId, stageNo], references: [tournamentId, stageNo], onDelete: Cascade)
 }
 
-model Registrations {
+model Registration {
   regId        BigInt     @id @default(autoincrement())
   tournamentId BigInt
-  userId       String
+  userId       Int
   tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId], onDelete: Cascade)
 }
 

@@ -21,10 +21,10 @@ export async function unregister(tournamentId: bigint, regIds?: bigint[]): Promi
     
 
 
-    const userId = session.user.id.toString()
+    const userId = session.user.id
 
 
-    const res = await prisma.registrations.deleteMany({
+    const res = await prisma.staff.deleteMany({
         where: {
             userId: userId,
             tournamentId: tournamentId
@@ -55,7 +55,7 @@ async function unregisterStaffside(tournamentId: bigint, regIds?: bigint[]): Pro
         return {"error": "How did you get here."};
     }
 
-    const res = await prisma.registrations.deleteMany({
+    const res = await prisma.registration.deleteMany({
         where: {
             regId: {
                 in: regIds

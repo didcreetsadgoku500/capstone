@@ -2,13 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Registrations } from "@prisma/client";
+import { Registration } from "@prisma/client";
 import { useState } from "react";
 import { unregister } from "@/app/api/queries/unregister";
 import { dataUserDetails } from "@/app/api/joinUserData";
 
 
-export default function DashboardClient({tournamentId, registrants}: {tournamentId: string, registrants: dataUserDetails<Registrations>[]}) {
+export default function DashboardClient({tournamentId, registrants}: {tournamentId: string, registrants: dataUserDetails<Registration>[]}) {
     const [rows, setRows] = useState(registrants)
 
     function removeRegistration(regId: bigint) {

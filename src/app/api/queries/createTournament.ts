@@ -20,10 +20,10 @@ export default async function createTournament(tourName: string) {
         }
     })
 
-    await prisma.permission.create({
+    await prisma.staff.create({
         data: {
-            userId: session.user.id.toString(),
-            scope: "tournament-" + newTournament.tournamentId,
+            userId: session.user.id,
+            tournamentId: newTournament.tournamentId,
             role: "host"
         }
     })

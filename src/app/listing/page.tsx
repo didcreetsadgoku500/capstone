@@ -34,7 +34,7 @@ export default async function ListingsPage() {
 
                         <h3 className={h3Styles}>Tournaments</h3>
                         <CreateTournamentDialog TriggerComponent={
-                            <Button className={"py-1 px-3"} variant={"secondary"} size={"xs"}>Create Tournament</Button>
+                            <Button variant={"secondary"} size={"xs"}>Create Tournament</Button>
 
 
                         }/>

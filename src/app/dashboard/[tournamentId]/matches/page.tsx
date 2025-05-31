@@ -30,15 +30,15 @@ export default async function Page({ params }: { params: { tournamentId: string 
         }
     })
 
-    const regsPromise = prisma.registrations.findMany({
+    const regsPromise = prisma.registration.findMany({
         where: {
             tournamentId: BigInt(params.tournamentId)
         }
     })
 
-    const refsPromise = prisma.permission.findMany({
+    const refsPromise = prisma.staff.findMany({
         where: {
-            scope: `tournament-${params.tournamentId}`,
+            tournamentId: Number(params.tournamentId),
             role: "referee"
         }
     })

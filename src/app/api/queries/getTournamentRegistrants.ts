@@ -2,10 +2,10 @@
 
 import prisma from "@/utils/db"
 import { ServerActionResponse } from "@/utils/serverActionResponse";
-import { Registrations } from "@prisma/client";
+import { Registration } from "@prisma/client";
 
-export async function getTournamentRegistrants(tID: bigint): Promise<ServerActionResponse<Registrations[]>> {
-    const dbResult = await prisma.registrations.findMany({
+export async function getTournamentRegistrants(tID: bigint): Promise<ServerActionResponse<Registration[]>> {
+    const dbResult = await prisma.registration.findMany({
         where: {
             tournamentId: tID
         }

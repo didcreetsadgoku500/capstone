@@ -30,7 +30,7 @@ export async function updateMappool(tournamentId: bigint, stageNo: number, touch
             continue;
         }
 
-
+// @ts-expect-error
         const dataObj: Pick<Mappool, "mods" | "modIndex" | "mapId"> = {}
 
         if (touchedFields[i].mod) {

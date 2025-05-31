@@ -2,12 +2,12 @@
 
 import prisma from "@/utils/db"
 import { ServerActionResponse } from "@/utils/serverActionResponse";
-import { Permission } from "@prisma/client";
+import { Staff } from "@prisma/client";
 
-export async function getTournamentStaff(tID: bigint): Promise<ServerActionResponse<Permission[]>> {
-    const dbResult = await prisma.permission.findMany({
+export async function getTournamentStaff(tID: bigint): Promise<ServerActionResponse<Staff[]>> {
+    const dbResult = await prisma.staff.findMany({
         where: {
-            scope: `tournament-${tID}`
+            tournamentId: tID
         }
     });
 

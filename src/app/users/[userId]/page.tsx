@@ -33,21 +33,14 @@ export default async function Userpage({ params }: { params: { userId: string } 
 
     const badgeCount = userData.badges.length;
 
-    const perms = await prisma.permission.findMany({
+    const perms = await prisma.staff.findMany({
         where: {
-            userId: userId.toString(),
+            userId: userId,
 
         }
     })
 
-    const staffedTournamentIds = []
-    for (const p of perms) {
-        if (p.scope.includes("tournament-")) {
-            staffedTournamentIds.push(BigInt(p.scope.split("-")[1]))
-        }
-    }
-
-
+    const staffedTournamentIds = perms.map(m => m.tournamentId)
 
     const staffedTournaments = await prisma.tournament.findMany({
         where: {
@@ -195,7 +188,7 @@ export default async function Userpage({ params }: { params: { userId: string } 
                                         <TableCell>
                                             {t.tourName}
                                             </TableCell>
-                                        <TableCell className="capitalize">{perms.filter(p => p.scope == `tournament-${t.tournamentId}`).map(p => p.role).join(", ")}</TableCell>
+                                        <TableCell className="capitalize">{perms.filter(p => p.tournamentId == t.tournamentId).map(p => p.role).join(", ")}</TableCell>
                                     </TableRow>
 
                                 ))}

@@ -3,13 +3,13 @@ import { removeStaff } from "@/app/api/queries/removeStaff";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Permission } from "@prisma/client";
+import { Staff } from "@prisma/client";
 import { useState } from "react";
 import AddStaffDialog from "./addStaffDialog";
 import { UserCompact } from "osu-web.js";
 import { addStaff } from "@/app/api/queries/addStaff";
 
-type StaffDetails = Permission & {
+type StaffDetails = Staff & {
     userDetails: UserCompact | undefined
 }
 
@@ -51,7 +51,7 @@ export default function DashboardClient({tournamentId, staff}: {tournamentId: st
              
             onStaffAdd={async (formdata) => {
                 // const res = await onDialogSubmit(BigInt(tournamentId), formdata)
-                const newStaff = await addStaff(BigInt(tournamentId), formdata.userId.toString(), [formdata.role])
+                const newStaff = await addStaff(BigInt(tournamentId), formdata.userId, [formdata.role])
                 
                 if (newStaff.body) {
 

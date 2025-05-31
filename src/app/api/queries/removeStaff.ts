@@ -14,7 +14,7 @@ export async function removeStaff(tournamentId: bigint, roleIds: bigint[]) {
 
     const ORoptions = roleIds.map((item) => {return {id: item}})
 
-    const result = await prisma.permission.deleteMany({
+    const result = await prisma.staff.deleteMany({
         where: {
             OR: ORoptions
         }

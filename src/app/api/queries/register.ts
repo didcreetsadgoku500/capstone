@@ -56,7 +56,7 @@ export async function register(tournamentId: bigint): Promise<ServerActionRespon
         return {"error": "You are not within the rank range for this tournament."}
     }
 
-    const userId = session.user.id.toString()
+    const userId = session.user.id
 
     // Check already registered
     for (const registration of tournament.registrations) {
@@ -67,7 +67,7 @@ export async function register(tournamentId: bigint): Promise<ServerActionRespon
 
 
     // Register if good
-    await prisma.registrations.create({
+    await prisma.registration.create({
         data: {
             userId: userId,
             tournamentId: tournamentId

@@ -1,9 +1,9 @@
 import { auth } from "@/utils/auth";
 import prisma from "@/utils/db"
 import { ServerActionResponse } from "@/utils/serverActionResponse";
-import { Registrations, Tournament } from "@prisma/client"
+import { Registration, Tournament } from "@prisma/client"
 
-export async function getRegistered(): Promise<ServerActionResponse<Registrations[]>> {
+export async function getRegistered(): Promise<ServerActionResponse<Registration[]>> {
     const session = await auth();
 
     if (!session || !session.user.id) {
@@ -11,9 +11,9 @@ export async function getRegistered(): Promise<ServerActionResponse<Registration
     }
 
 
-    const regs = await prisma.registrations.findMany({
+    const regs = await prisma.registration.findMany({
         where: {
-            userId: session.user.id.toString()
+            userId: session.user.id
         },
         take: 20
     })

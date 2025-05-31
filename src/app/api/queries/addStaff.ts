@@ -7,16 +7,16 @@ import { verifyRole } from "@/utils/permissions";
 import { revalidatePath } from "next/cache";
 import { Client } from "osu-web.js";
 
-export async function addStaff(tournamentId: bigint, userId: string, roles: string[]) {
+export async function addStaff(tournamentId: bigint, userId: number, roles: string[]) {
     const session = await auth()
     const userRole = await verifyRole(session?.user.id, `tournament-${tournamentId}`, ["host"])
     if (!userRole || userRole.length == 0 || !session) {
         return {error: "Not authenticated"};
     }
 
-    const data = roles.map((item) => {return {userId: userId, scope: `tournament-${tournamentId}`,role: item}})
+    const data = roles.map((item) => {return {userId: userId, tournamentId: tournamentId, role: item}})
 
-    const tournamentStaff = await prisma.permission.createManyAndReturn({
+    const tournamentStaff = await prisma.staff.createManyAndReturn({
         data
     });
 

@@ -9,9 +9,8 @@ export default function TournamentsTableView({tournaments}: {tournaments: ITourn
                 
                {tournaments.map((tournament) => <TournamentCard key={tournament.tournamentId} 
                     details={tournament} 
+                    // @ts-expect-error: "registered" does not exist on ITournament
                     isRegistered={tournament.registered}/>)}
             </div>
-
-
     )
 }

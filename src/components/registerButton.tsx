@@ -1,19 +1,19 @@
 "use client"
 
-import { ITournament } from "@/app/api/queries/getTournaments"
 import { Button } from "./ui/button"
 import { register } from "@/app/api/queries/register"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { Loader2 } from "lucide-react"
 import { unregister } from "@/app/api/queries/unregister"
+import { Tournament } from "@prisma/client"
 
 
 
 // Button for registering for a tournament
 
 
-export default function RegisterButton({details, isDefaultRegistered}: {details: ITournament, isDefaultRegistered: boolean}) {
+export default function RegisterButton({details, isDefaultRegistered}: {details: Tournament, isDefaultRegistered: boolean}) {
     const [isRegistered, setRegistered] = useState(isDefaultRegistered || false)
     const [isLoading, setLoading] = useState(false)
     const {toast} = useToast()

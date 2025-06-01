@@ -68,7 +68,11 @@ export function MappoolTable({ maps, mapDetails, onUpdate }: { maps: Mappool[], 
 
     <Button className="mr-4" onClick={() => {onUpdate && onUpdate(touchedFields)}}>
             Update Mappool</Button> 
-    <Button onClick={() => setTableItems([...tableItems, {mappoolItemId: tableItems.length * -1 }])}>Add Map</Button>
+    <Button onClick={() => {
+        //@ts-expect-error: Two errors here. Need to work with returned ID before
+        setTableItems([...tableItems, {mappoolItemId: tableItems.length * -1 }])
+        
+        }}>Add Map</Button>
     </div>
     </div>
 }

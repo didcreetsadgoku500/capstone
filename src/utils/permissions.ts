@@ -1,9 +1,10 @@
 "use server";
 import { Staff } from "@prisma/client";
 import prisma from "./db";
+import { ReactElement } from "react";
 
-export async function getRoles(userID: number | null | undefined, scope: string | bigint): Promise<Staff[]> {
-    if (!userID) {
+export async function getRoles(userId: number | null | undefined, scope: string | bigint): Promise<Staff[]> {
+    if (!userId) {
         return [];
     }
 
@@ -18,7 +19,7 @@ export async function getRoles(userID: number | null | undefined, scope: string 
             AND: [
                 {
 
-                    userId: userID,
+                    userId: userId,
                     tournamentId: scope,
                 }
             ]
@@ -29,16 +30,31 @@ export async function getRoles(userID: number | null | undefined, scope: string 
     return result;
 }
 
-export async function verifyRole(userID: number | null | undefined, scope: string | bigint, roles: string[]): Promise<Staff[] | null> {
-    if (!userID) {
+export async function verifyRole(userId: number | null | undefined, scope: string | bigint, roles: string[]): Promise<Staff[] | null> {
+    if (!userId) {
         return null;
     }
 
-    const userRoles = (await getRoles(userID, scope)).filter((role) => roles.includes(role.role));
+    const userRoles = (await getRoles(userId, scope)).filter((role) => roles.includes(role.role));
 
     if (userRoles.length == 0) {
         return null;
     }
 
     return userRoles;
+}
+
+
+export async function PermissionGate({userId, tournamentId, role, Fallback, children}: {userId: number, tournamentId: bigint, role: string | string[], Fallback: ReactElement, children:ReactElement}) {
+    if (!Array.isArray(role)) {
+        role = [role]
+    }
+
+    const userRoles = await verifyRole(userId, tournamentId, role)
+    
+    if (userRoles) {
+        return children;
+    }
+
+    return Fallback;
 }

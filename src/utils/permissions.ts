@@ -45,16 +45,27 @@ export async function verifyRole(userId: number | null | undefined, scope: strin
 }
 
 
-export async function PermissionGate({userId, tournamentId, role, Fallback, children}: {userId: number, tournamentId: bigint, role: string | string[], Fallback: ReactElement, children:ReactElement}) {
-    if (!Array.isArray(role)) {
-        role = [role]
+export async function PermissionGate({
+    userId,
+    tournamentId,
+    role,
+    Fallback: fallback,
+    children
+}: { 
+    userId: number, 
+    tournamentId: bigint, 
+    role?: string | string[], 
+    Fallback: ReactElement, 
+    children: ReactElement 
+}): Promise<ReactElement> {
+    const userRoles = await getRoles(userId, tournamentId);
+
+    if (!role) {
+        return userRoles.length > 0 ? children : fallback;
     }
 
-    const userRoles = await verifyRole(userId, tournamentId, role)
-    
-    if (userRoles) {
-        return children;
-    }
+    const allowedRoles = Array.isArray(role) ? role : [role];
+    const hasPermission = userRoles.some(userRole => allowedRoles.includes(userRole.role));
 
-    return Fallback;
+    return hasPermission ? children : fallback;
 }

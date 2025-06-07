@@ -3,7 +3,7 @@ import { Stage } from "@prisma/client";
 import { useState } from "react";
 import { StageListItem } from "./stageListItem";
 import { Button } from "@/components/ui/button";
-import AddStageDialog from "./addStageDialog";
+import AddStageDialog from "../../../../components/dialogs/addStageDialog";
 import { useToast } from "@/hooks/use-toast";
 import { createStage } from "@/app/api/queries/createStage";
 import { deleteStage } from "@/app/api/queries/deleteStage";

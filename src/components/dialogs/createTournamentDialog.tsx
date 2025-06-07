@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, Controller } from 'react-hook-form'
 
 import { z } from "zod"
-import createTournament from "../api/queries/createTournament"
+import createTournament from "@/app/api/queries/createTournament"
 
 const schema = z.object({
     tourName: z.string().min(1, "Tournament name is required").max(50, "Tournament name must be 50 characters or less")

@@ -4,7 +4,7 @@ import Filters from "./filters";
 import TournamentsTableView from "./tournamentsTableView";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import CreateTournamentDialog from "./createTournamentDialog";
+import CreateTournamentDialog from "@/components/dialogs/createTournamentDialog";
 import { getRegistered } from "../api/queries/getRegistered";
 
 

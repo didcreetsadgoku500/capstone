@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Staff } from "@prisma/client";
 import { useState } from "react";
-import AddStaffDialog from "./addStaffDialog";
+import AddStaffDialog from "../../../../components/dialogs/addStaffDialog";
 import { UserCompact } from "osu-web.js";
 import { addStaff } from "@/app/api/queries/addStaff";
 

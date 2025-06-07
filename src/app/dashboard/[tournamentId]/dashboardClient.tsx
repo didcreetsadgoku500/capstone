@@ -11,7 +11,7 @@ import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import updateTournament from "@/app/api/queries/updateTournament"
 import GamemodeSelect from "@/components/gamemodeSelect"
-import DeleteTournamentDialog from "./deleteTournamentDialog"
+import DeleteTournamentDialog from "../../../components/dialogs/deleteTournamentDialog"
 
 const schema = z.object({
   tourName: z.string().min(1, "Tournament name is required").max(50, "Tournament name must be 50 characters or less"),

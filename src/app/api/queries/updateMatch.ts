@@ -1,6 +1,6 @@
 "use server"
 
-import { MatchFormData } from "@/app/dashboard/[tournamentId]/matches/editMatchDialog";
+import { MatchFormData } from "@/components/dialogs/editMatchDialog";
 import { auth } from "@/utils/auth";
 import prisma from "@/utils/db";
 import { verifyRole } from "@/utils/permissions";

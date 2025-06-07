@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sidebar } from "./sidebar";
+import { Sidebar } from "@/components/dashboard/sidebar";
 
 
 

@@ -24,7 +24,7 @@ export async function unregister(tournamentId: bigint, regIds?: bigint[]): Promi
     const userId = session.user.id
 
 
-    const res = await prisma.staff.deleteMany({
+    const res = await prisma.registration.deleteMany({
         where: {
             userId: userId,
             tournamentId: tournamentId

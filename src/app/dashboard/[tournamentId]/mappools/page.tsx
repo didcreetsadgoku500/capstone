@@ -2,7 +2,7 @@ import { auth } from "@/utils/auth";
 import { Unauthenticated, Unauthorized } from "../errorViews";
 import { verifyRole } from "@/utils/permissions";
 import prisma from "@/utils/db";
-import { MappoolTable } from "./mappoolTable";
+import { MappoolTable } from "../../../../components/mappools/mappoolTable";
 import { onlyUnique } from "@/utils/helper";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {DashboardClient} from "./dashboardClient";

@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ITournament } from "../api/queries/getTournaments";
+import { ITournament } from "../app/api/queries/getTournaments";
 import { UserRoundIcon, UsersRound } from "lucide-react";
 import { smallStyles } from "@/components/textStyles";
-import { register } from "../api/queries/register";
+import { register } from "../app/api/queries/register";
 import RegisterButton from "@/components/registerButton";
 
 

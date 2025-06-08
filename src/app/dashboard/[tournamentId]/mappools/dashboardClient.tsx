@@ -1,7 +1,5 @@
-"use client"
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { MappoolTable } from "./mappoolTable"
+import { MappoolTable } from "../../../../components/mappools/mappoolTable"
 import { useState } from "react"
 import { updateMappool } from "@/app/api/queries/updateMappool"
 import { Mappool, Stage } from "@prisma/client"

@@ -1,4 +1,4 @@
-import TournamentCard from "./tournamentCard";
+import TournamentCard from "../../components/tournamentCard";
 import { ITournament } from "../api/queries/getTournaments";
 
 

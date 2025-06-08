@@ -1,10 +1,10 @@
 import { auth } from "@/utils/auth";
-import { logoStyles } from "./textStyles";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { logoStyles } from "@/components/textStyles";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { UserRound } from "lucide-react";
 import { NavBarLoginItem } from "./navBarLoginItem";
-import { Separator } from "./ui/separator";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 

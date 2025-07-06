@@ -14,31 +14,25 @@ export async function getRoles(userId: number | null | undefined, scope: string 
     }
 
     const result = prisma.staff.findMany({
-        where:  
-        {
+        where: {
             AND: [
-                {
-
-                    userId: userId,
-                    tournamentId: scope,
-                }
+                {userId: userId, tournamentId: scope}
             ]
-            
         }
     })
 
     return result;
 }
 
-export async function verifyRole(userId: number | null | undefined, scope: string | bigint, roles: string[]): Promise<Staff[] | null> {
+export async function verifyRole(userId: number | null | undefined, scope: string | bigint, roles: string[]): Promise<Staff[]> {
     if (!userId) {
-        return null;
+        return [];
     }
 
     const userRoles = (await getRoles(userId, scope)).filter((role) => roles.includes(role.role));
 
     if (userRoles.length == 0) {
-        return null;
+        return [];
     }
 
     return userRoles;
@@ -54,17 +48,14 @@ export async function PermissionGate({
 }: { 
     userId: number, 
     tournamentId: bigint, 
-    role?: string | string[], 
+    role: string | string[], 
     Fallback: ReactElement, 
     children: ReactElement 
 }): Promise<ReactElement> {
-    const userRoles = await getRoles(userId, tournamentId);
-
-    if (!role) {
-        return userRoles.length > 0 ? children : fallback;
-    }
 
     const allowedRoles = Array.isArray(role) ? role : [role];
+    const userRoles = await verifyRole(userId, tournamentId, allowedRoles)
+
     const hasPermission = userRoles.some(userRole => allowedRoles.includes(userRole.role));
 
     return hasPermission ? children : fallback;

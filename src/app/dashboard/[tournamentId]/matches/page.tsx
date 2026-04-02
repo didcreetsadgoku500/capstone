@@ -1,68 +1,63 @@
 import { auth } from "@/utils/auth";
 import { Unauthenticated, Unauthorized } from "../errorViews";
-import { verifyRole } from "@/utils/permissions";
+import { PermissionGate, verifyRole } from "@/utils/permissions";
 import prisma from "@/utils/db";
 import DashboardClient from "./dashboardClient";
 import { joinUserDetails } from "@/app/api/joinUserData";
 
+async function fetchMatchesData(tournamentId: bigint) {
+    const [matches, stages, regs, refs] = await Promise.all([
+        prisma.match.findMany({ where: { tournamentId } }),
+        prisma.stage.findMany({ where: { tournamentId } }),
+        prisma.registration.findMany({ where: { tournamentId } }),
+        prisma.staff.findMany({ where: { tournamentId: Number(tournamentId), role: "referee" } })
+    ]);
+
+    const regsDetails = (await joinUserDetails(regs, r => Number(r.userId)))?.map(r => r.userDetails);
+    const refsDetails = (await joinUserDetails(refs, r => Number(r.userId)))?.map(r => r.userDetails);
+
+
+    return {
+        matches,
+        stages,
+        regsDetails,
+        refsDetails
+    };
+}
+
 export default async function Page({ params }: { params: { tournamentId: string } }) {
     const session = await auth();
+    const tournamentId = BigInt(params.tournamentId);
+    const authorizedRoles = ["host", "cohost", "referee"];
 
     if (!session || !session.user.id) {
-        return <Unauthenticated />
-    }
-    const permission = await verifyRole(session.user.id, `tournament-${params.tournamentId}`, ["host", "cohost", "referee"])
-    if (!permission) {
-        return <Unauthorized tournamentId={params.tournamentId}/>
+        return <Unauthenticated />;
     }
 
+    type MatchData = Awaited<ReturnType<typeof fetchMatchesData>>;
+    let data: MatchData | null = null;
 
-    const matchesPromise =  prisma.match.findMany({
-        where: {
-            tournamentId: BigInt(params.tournamentId),
-
-        }
-    })
-
-    const stagesPromise =  prisma.stage.findMany({
-        where: {
-            tournamentId: BigInt(params.tournamentId),
-        }
-    })
-
-    const regsPromise = prisma.registration.findMany({
-        where: {
-            tournamentId: BigInt(params.tournamentId)
-        }
-    })
-
-    const refsPromise = prisma.staff.findMany({
-        where: {
-            tournamentId: Number(params.tournamentId),
-            role: "referee"
-        }
-    })
-
-    const regs = await regsPromise
-    const matches = await matchesPromise
-    const stages = await stagesPromise
-    const refs = await refsPromise
-
-    const res = await joinUserDetails(regs, r => Number(r.userId))
-    const res2 = await joinUserDetails(refs, r => Number(r.userId))
-
-
-    if (!res || !res2) {
-        return <div>Could not fetch user details. Try relogging.</div>
+    if (await verifyRole(session.user.id, tournamentId, authorizedRoles)) {
+        data = await fetchMatchesData(tournamentId);
     }
 
-    const regsDetails = res.map(r => r.userDetails)
-    const refsDetails = res2.map(r => r.userDetails)
-
-    return <DashboardClient 
-        tournamentId={params.tournamentId} 
-        defaultMatches={matches} 
-        stages={stages} 
-        users={regsDetails} 
-        referees={refsDetails}/>
+    return (
+        <PermissionGate
+            userId={session.user.id}
+            fallback={<Unauthorized tournamentId={params.tournamentId} />}
+            role={authorizedRoles}
+            tournamentId={tournamentId}
+        >
+            <>{data?.regsDetails && data.refsDetails
+                ? <DashboardClient
+                    tournamentId={params.tournamentId}
+                    defaultMatches={data.matches}
+                    stages={data.stages}
+                    users={data.regsDetails}
+                    referees={data.refsDetails}
+                  />
+                : <div>Could not fetch user details. Try relogging.</div>
+            }</>
+        </PermissionGate>
+    );
 }

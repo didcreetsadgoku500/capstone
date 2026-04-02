@@ -1,7 +1,17 @@
 "use server";
 import { Staff } from "@prisma/client";
 import prisma from "./db";
-import { ReactElement } from "react";
+import { cache, ReactElement } from "react";
+
+const getCachedRoles = cache(async (userId: number, scope: bigint): Promise<Staff[]> => {
+    return prisma.staff.findMany({
+        where: {
+            AND: [
+                { userId: userId, tournamentId: scope }
+            ]
+        }
+    });
+});
 
 export async function getRoles(userId: number | null | undefined, scope: string | bigint): Promise<Staff[]> {
     if (!userId) {
@@ -13,15 +23,7 @@ export async function getRoles(userId: number | null | undefined, scope: string 
         scope = BigInt(scope.split("-")[1])
     }
 
-    const result = prisma.staff.findMany({
-        where: {
-            AND: [
-                {userId: userId, tournamentId: scope}
-            ]
-        }
-    })
-
-    return result;
+    return getCachedRoles(userId, scope);
 }
 
 export async function verifyRole(userId: number | null | undefined, scope: string | bigint, roles: string[]): Promise<Staff[]> {

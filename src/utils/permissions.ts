@@ -45,13 +45,13 @@ export async function PermissionGate({
     userId,
     tournamentId,
     role,
-    Fallback: fallback,
+    fallback: fallback,
     children
 }: { 
     userId: number, 
     tournamentId: bigint, 
     role: string | string[], 
-    Fallback: ReactElement, 
+    fallback: ReactElement, 
     children: ReactElement 
 }): Promise<ReactElement> {
 

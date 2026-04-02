@@ -24,9 +24,6 @@ async function fetchMappoolData(tournamentId: bigint) {
     const mapDetails = (await joinBeatmapDetails(mapIds, m => m || 2684122)).map(m => m.mapDetails)
 
     return {stages, mapDetails}
-
-
-
 }
 
 
@@ -47,15 +44,14 @@ export default async function Page({ params }: { params: { tournamentId: string 
         ({stages, mapDetails} = await fetchMappoolData(tournamentId))
     }
     
-
     return (
             <PermissionGate 
                 userId={session.user.id} 
-                Fallback={<Unauthorized tournamentId={params.tournamentId}/> }
+                fallback={<Unauthorized tournamentId={params.tournamentId}/> }
                 role={authorizedRoles}
                 tournamentId={BigInt(params.tournamentId)}
                 >
-                    <DashboardClient stages={stages} initialMaps={mapDetails.map(m => m.mapDetails)}/>
+                    <DashboardClient stages={stages} initialMaps={mapDetails}/>
             </PermissionGate>
     )
 }

@@ -7,7 +7,7 @@ export async function joinBeatmapDetails<T>(inputList: T[], extractPredicate: (i
     const session = await auth()
 
     if (!session || !session.access_token) {
-        return //error
+        return [] //error
     }
     
 

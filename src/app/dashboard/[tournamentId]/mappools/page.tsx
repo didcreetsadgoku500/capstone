@@ -1,29 +1,14 @@
 import { auth } from "@/utils/auth";
 import { Unauthenticated, Unauthorized } from "../errorViews";
-import { verifyRole } from "@/utils/permissions";
+import { PermissionGate, verifyRole } from "@/utils/permissions";
 import prisma from "@/utils/db";
-import { MappoolTable } from "../../../../components/mappools/mappoolTable";
-import { onlyUnique } from "@/utils/helper";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {DashboardClient} from "./dashboardClient";
 import { joinBeatmapDetails } from "@/app/api/joinBeatmapData";
-import { Mappool } from "@prisma/client";
 
-export default async function Page({ params }: { params: { tournamentId: string } }) {
-    const session = await auth();
-
-    if (!session || !session.user.id) {
-        return <Unauthenticated />
-    }
-    const permission = await verifyRole(session.user.id, `tournament-${params.tournamentId}`, ["host", "cohost", "pooler"])
-    if (!permission) {
-        console.log(permission)
-        return <Unauthorized tournamentId={params.tournamentId}/>
-    }
-
+async function fetchMappoolData(tournamentId: bigint) {
     const stages = await prisma.stage.findMany({
         where: {
-            tournamentId: BigInt(params.tournamentId),
+            tournamentId: BigInt(tournamentId),
             isBracket: true
         },
         include: {
@@ -35,20 +20,42 @@ export default async function Page({ params }: { params: { tournamentId: string 
         
     })
 
-    if (!stages) {
-        return <p>Could not load maps</p>
-    }
-
     const mapIds = stages.flatMap(s => s.mappool.map(m => m.mapId)).filter((x: number | null): x is number => x !== null);
-    const mapDetails = await joinBeatmapDetails(mapIds, m => m || 2684122)
+    const mapDetails = (await joinBeatmapDetails(mapIds, m => m || 2684122)).map(m => m.mapDetails)
 
-    if (!mapDetails) {
-        return <p>Could not load maps</p>
+    return {stages, mapDetails}
+
+
+
+}
+
+
+export default async function Page({ params }: { params: { tournamentId: string } }) {
+    const session = await auth();
+    const tournamentId = BigInt(params.tournamentId)
+    const authorizedRoles = ["host", "cohost", "pooler"]
+
+    if (!session || !session.user.id) {
+        return <Unauthenticated />
     }
+
+    type MappoolData = Awaited<ReturnType<typeof fetchMappoolData>>;
+    let stages: MappoolData["stages"] = [];
+    let mapDetails: MappoolData["mapDetails"] = [];
+
+    if (await verifyRole(session.user.id, tournamentId, authorizedRoles)) {
+        ({stages, mapDetails} = await fetchMappoolData(tournamentId))
+    }
+    
 
     return (
-        <>
-            <DashboardClient stages={stages} initialMaps={mapDetails.map(m => m.mapDetails)}/>
-        </>
+            <PermissionGate 
+                userId={session.user.id} 
+                Fallback={<Unauthorized tournamentId={params.tournamentId}/> }
+                role={authorizedRoles}
+                tournamentId={BigInt(params.tournamentId)}
+                >
+                    <DashboardClient stages={stages} initialMaps={mapDetails.map(m => m.mapDetails)}/>
+            </PermissionGate>
     )
 }
